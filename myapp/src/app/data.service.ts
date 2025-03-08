@@ -6,8 +6,10 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class DataService {
-  private http = inject(HttpClient);
+  //private http = inject(HttpClient);
   private apiUrl = 'https://effective-space-chainsaw-j49r5grgqvqcpp47-8080.app.github.dev/entity/usuario'; // Ejemplo de API
+
+  constructor(private http:HttpClient) {};
 
   getData(): Observable<any[]> {
     return this.http.get<any[]>(this.apiUrl);
