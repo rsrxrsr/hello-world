@@ -1,12 +1,11 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DataService } from '../data.service'; // Ajusta la ruta
-import { HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-test',
   standalone: true,
-  imports: [CommonModule, HttpClientModule], //Importa HttpClientModule
+  imports: [CommonModule], //Importa HttpClientModule
   template: `
     <h1>Datos de la API</h1>
     <ul *ngIf="data">
