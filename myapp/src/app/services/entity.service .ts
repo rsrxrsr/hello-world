@@ -12,13 +12,31 @@ import { RestService } from './rest.service';
 export class EntityService {
 
   entity: any = {};
-  db: { [key: string]: any[] } = {};
+  db: any | undefined;
+  error: string | undefined;
 
   constructor(
-    private router: Router,
+    //private router: Router,
     public repositoryService: RestService
   ) { }
 
+  getAll(entityName: string): void {
+    this.repositoryService.getAll(entityName).subscribe({
+      next: (data) => {
+        this.db[entityName]= data;
+      },
+      error: (error) => {
+        this.error = error.message;
+      },
+    });
+  }
+
+  delete (entityName: string, entity: any): void {
+    console.log("service/delete");
+  }
+
+/*
+ 
   login(entityName: string, entity: any): Observable<any> {
     return this.repositoryService.login(entityName, entity);
   }
@@ -37,13 +55,13 @@ export class EntityService {
         }),
         catchError(error => {
           this.errorHandler(error);
-          return throwError(error);
+          return throwError(error)
         })
       )
       .subscribe();
   }
 
-  save(entityName: string, entity: any): void {
+  save (entityName: string, entity: any): void {
     console.log("service/save", entity);
     this.repositoryService.save(entityName, entity)
       .pipe(
@@ -108,4 +126,5 @@ export class EntityService {
       this.router.navigate(["login"]);
     }
   }
+ */
 }

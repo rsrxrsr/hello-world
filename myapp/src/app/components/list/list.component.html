@@ -1,6 +1,6 @@
 <div>
   <h3>Lista {{entityName}}</h3>
-  <button type="button" routerLink="['/angular', entityName, 'update']">Create</button>
+  <button type="button" routerLink="['/angular', entityName, 'create']">Create</button>
   <table>
     <thead>
         <tr>
@@ -11,8 +11,9 @@
         </tr>
     </thead>
     <tbody>
-        
+        <!-- 
         @for (entity of entityService.db[entityName]; track entity.id) {
+         -->
         <tr>
             <!--<td>{{entity.id}}</td>-->
             <td>{{entity.usuario}}</td>
@@ -23,7 +24,7 @@
                 <button type="button" (click)="delete(entity)">Delete</button>
             </td>
         </tr>
-        }
+        
     </tbody>
   </table>
 </div>

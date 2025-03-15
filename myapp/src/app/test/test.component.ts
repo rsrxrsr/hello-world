@@ -1,6 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DataService } from '../data.service'; // Ajusta la ruta
+import { DataService } from './data.service'; // Ajusta la ruta
 
 @Component({
   selector: 'app-test',
@@ -18,10 +18,11 @@ import { DataService } from '../data.service'; // Ajusta la ruta
 export class TestComponent implements OnInit {
   data: any[] | undefined;
   error: string | undefined;
-  private dataService = inject(DataService);
+
+  //private dataService = inject(DataService);
+  constructor(private dataService: DataService) {}
 
   ngOnInit() {
-    //
     this.dataService.getData().subscribe({
       next: (data) => {
         this.data = data;
@@ -30,6 +31,6 @@ export class TestComponent implements OnInit {
         this.error = error.message;
       },
     });
-    //
   }
+  
 }
