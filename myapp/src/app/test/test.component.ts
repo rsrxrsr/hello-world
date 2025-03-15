@@ -7,7 +7,7 @@ import { DataService } from './data.service'; // Ajusta la ruta
   standalone: true,
   imports: [CommonModule], //Importa HttpClientModule
   template: `
-    <h1>Datos de la API</h1>
+    <h3>Datos de la API</h3>
     <ul *ngIf="data">
       <li *ngFor="let item of data">{{ item.usuario+" - "+item.password}}</li>
     </ul>

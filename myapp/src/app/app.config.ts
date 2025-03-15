@@ -10,8 +10,6 @@ import { EntityService } from './services/entity.service ';
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
-    provideHttpClient(),
-    EntityService,
-    RestService,   
+    provideHttpClient(),  
   ],
 };

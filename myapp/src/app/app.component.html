@@ -227,8 +227,6 @@
       </svg>
       <h1>Hello, {{ title }}</h1>
       <p>Congratulations! Your app is running. 🎉</p>
-      <h2>Hola Helen!</h2>
-      <app-test/>
     </div>
     <div class="divider" role="separator" aria-label="Divider"></div>
     <div class="right-side">
@@ -333,10 +331,24 @@
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
 <!-- * * * * * * * * * * End of Placeholder  * * * * * * * * * * * * -->
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
-
-
-<router-outlet />
-
 <!-- -->
+<h2>App-Test</h2>
+<app-test/>
+
+
+<h2>App-List</h2>
 <app-list [entityName]="'usuario'" ></app-list>
+
+<!--
+<div>
+  <a class="button" routerLink="/angular/entity/list">List Component</a>
+  <a class="button" routerLink="/angular/entity/test">Test Component</a>
+</div>
+-->
+
+<h2>Router-outlet</h2>
+
+<router-outlet></router-outlet>
+
+
 

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpRequest,  HttpResponse, HttpEventType, HttpErrorResponse } from "@angular/common/http";
 
 import { Observable, throwError } from 'rxjs';
@@ -13,13 +13,15 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class RestService {
 
+  //private activatedRoute = inject(ActivatedRoute);
+
   //private apiServer = environment.apiServer;
 
   private apiServer = 'https://effective-space-chainsaw-j49r5grgqvqcpp47-8080.app.github.dev'; // Ejemplo de API
 
 
   constructor(private httpClient: HttpClient,
-   			  private activatedRoute: ActivatedRoute
+   			  //private activatedRoute: ActivatedRoute
    			  ) { }
 
   getUrl(entityName):string {
