@@ -1,12 +1,12 @@
 <div>
   <h3>Lista {{entityName}}</h3>
-  <button type="button" routerLink="/list">Create</button>
+  <button type="button" routerLink="/test">Create</button>
   <table>
     <thead>
         <tr>
             <!--<th>#</th>-->
             <th>Usuario</th>
-            <th>Password</th>
+            <th>Clave</th>
             <th>Estatus</th>
         </tr>
     </thead>
@@ -27,6 +27,8 @@
     </tbody>
   </table>
 </div>
+<p>Avisos: </p>
 <p *ngif="error">Error: {{error}}</p>
+
 
 

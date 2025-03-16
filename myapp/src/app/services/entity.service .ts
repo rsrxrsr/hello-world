@@ -20,15 +20,8 @@ export class EntityService {
     public repositoryService: RestService
   ) { }
 
-  getAll(entityName: string): void {
-    this.repositoryService.getAll(entityName).subscribe({
-      next: (data) => {
-        this.db[entityName]= data; //["_embedded"]["usuarios"];
-      },
-      error: (error) => {
-        this.error = error.message;
-      },
-    })
+  getAll(entityName: string): Observable<any[]> {
+    return this.repositoryService.getAll(entityName);
   }
 
   delete (entityName: string, entity: any): void {

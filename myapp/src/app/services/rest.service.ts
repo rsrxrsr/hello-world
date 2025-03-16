@@ -13,7 +13,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class RestService {
 
-  //private activatedRoute = inject(ActivatedRoute);
+  private activatedRoute = inject(ActivatedRoute);
 
   //private apiServer = environment.apiServer;
 
@@ -105,7 +105,7 @@ export class RestService {
       errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
     }
     console.log(errorMessage);
-    return throwError(errorMessage);
+    return throwError(() => (errorMessage));
   }
 
 }

@@ -32,13 +32,27 @@ export class ListComponent implements OnInit {
     //this.entityService = {"db": {"usuario": [{"id": 1, "usuario":"un usuario", "estatus": 1, "roles": "ADMIN, USER, OPERATOR"}]}};
     //this.entity = this.entityService["db"]["usuario"][0];
     //this.entityName= this.inputEntityName ? this.inputEntityName : this.activatedRoute.snapshot.url[1].path;
-    this.entityService.getAll(this.entityName); 
+    this.read; 
+  }
+
+  read() {
+    this.entityService.getAll(this.entityName).subscribe({
+      next: (data) => {
+        this.entityService.db[this.entityName] = data;
+      },
+      error: (error) => {
+        this.error = error;
+      },
+      complete: () => {
+        console.log('Suscripción completada.');
+      },
+    });
   }
  
   //
   selectRow(entity: any) {
     this.entityService.entity=entity;
-    this.router.navigate([`/angular/${this.entityName}/update`]);    
+    this.router.navigate(["/test"]);    
   }
   
   delete(entity: any) {
