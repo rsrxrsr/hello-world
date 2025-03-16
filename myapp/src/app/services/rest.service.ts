@@ -25,7 +25,7 @@ export class RestService {
    			  ) { }
 
   getUrl(entityName):string {
-    return this.apiServer + "/entity/restapi/" + entityName
+    return this.apiServer + "/entity/" + entityName
   }
 
   private getHttpOptions() {
@@ -52,8 +52,7 @@ export class RestService {
   getAll(entityName): Observable<any[]> {
     console.log("Rest/list ", entityName);
     //let url = this.activatedRoute.snapshot.url[1].path;
-    let url="usuarios";
-    return this.httpClient.get<any[]>(this.getUrl(url), this.getHttpOptions())
+    return this.httpClient.get<any[]>(this.getUrl(entityName), this.getHttpOptions())
       .pipe(catchError(this.errorHandler))
   }
 

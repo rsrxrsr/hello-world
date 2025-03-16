@@ -1,6 +1,6 @@
 <div>
   <h3>Lista {{entityName}}</h3>
-  <button type="button" routerLink="/angular/entity/test">Create</button>
+  <button type="button" routerLink="/list">Create</button>
   <table>
     <thead>
         <tr>
@@ -27,3 +27,6 @@
     </tbody>
   </table>
 </div>
+<p *ngif="error">Error: {{error}}</p>
+
+

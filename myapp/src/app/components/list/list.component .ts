@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, inject} from '@angular/core';
-import { Router, RouterModule } from '@angular/router';
+import { Router} from '@angular/router';
 import {CommonModule, Location} from '@angular/common';
 import { EntityService} from '../../services/entity.service ';
 
@@ -11,20 +11,21 @@ import { EntityService} from '../../services/entity.service ';
   standalone: true, 
   imports: [CommonModule]
 })
-export class ListComponent { //implements OnInit {
+export class ListComponent implements OnInit {
 
-  //private router = inject(Router);
-  //private entityServices = inject(EntityService)
+  private router = inject(Router);
+  public entityService = inject(EntityService)
+  error : string | undefined;
 
   @Input()
-  entityName : any = "usuario1";
+  entityName : any = "usuario";
 //
  // entityService: any = {};
  // entity: any = {};
 
   constructor(
-    private location: Location,
-    public entityService : EntityService,  
+    private location: Location
+    //public entityService : EntityService,  
     ) { }
 
   ngOnInit(): void {
@@ -37,7 +38,7 @@ export class ListComponent { //implements OnInit {
   //
   selectRow(entity: any) {
     this.entityService.entity=entity;
-    //this.router.navigate([`/angular/${this.entityName}/update`]);    
+    this.router.navigate([`/angular/${this.entityName}/update`]);    
   }
   
   delete(entity: any) {

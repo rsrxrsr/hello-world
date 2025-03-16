@@ -5,8 +5,8 @@ import { TestComponent } from './test/test.component';
 
 
     export const routes: Routes = [
-      { path: '/angular/entity/list', component: ListComponent },    
-      { path: '/angular/entity/test', component: TestComponent},
-      { path: '', redirectTo:  '/angular/entity/test', pathMatch: 'full'},
+      { path: 'list', component: ListComponent },    
+      { path: 'test', component: TestComponent},
+      { path: '', redirectTo:  'test', pathMatch: 'full'},
       { path: '**', redirectTo: '' }
     ];

@@ -1,6 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DataService } from './data.service'; // Ajusta la ruta
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-test',
@@ -9,9 +10,9 @@ import { DataService } from './data.service'; // Ajusta la ruta
   template: `
     <h3>Datos de la API</h3>
     <ul *ngIf="data">
-      <li *ngFor="let item of data">{{ item.usuario+" - "+item.password}}</li>
+      <li *ngFor="let item of data">{{ item.usuario+" = "+item.password}}</li>
     </ul>
-    <p *ngIf="error">Error: {{ error }}</p>
+    <p *ngIf="error"> Error: {{ error }}</p>
   `,
   styleUrls: ['test.component.css'],
 })

@@ -334,20 +334,23 @@
 <!-- -->
 <h2>App-Test</h2>
 <app-test/>
-
-
 <h2>App-List</h2>
 <app-list [entityName]="'usuario'" ></app-list>
 
-<!--
-<div>
-  <a class="button" routerLink="/angular/entity/list">List Component</a>
-  <a class="button" routerLink="/angular/entity/test">Test Component</a>
-</div>
--->
+<h1>Angular Router App</h1>
+<nav>
+  <ul>
+    <li><a routerLink="/list" routerLinkActive="active" ariaCurrentWhenActive="page">List Component</a></li>
+    <li><a routerLink="/test" routerLinkActive="active" ariaCurrentWhenActive="page">Test Component</a></li>
+  </ul>
+</nav>
+
+<!-- The routed views render in the <router-outlet>-->
+<router-outlet />
+
+
 
 <h2>Router-outlet</h2>
-
 <router-outlet></router-outlet>
 
 

@@ -23,12 +23,12 @@ export class EntityService {
   getAll(entityName: string): void {
     this.repositoryService.getAll(entityName).subscribe({
       next: (data) => {
-        this.db[entityName]= data["_embedded"]["usuarios"];
+        this.db[entityName]= data; //["_embedded"]["usuarios"];
       },
       error: (error) => {
         this.error = error.message;
       },
-    });
+    })
   }
 
   delete (entityName: string, entity: any): void {
