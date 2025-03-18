@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, inject} from '@angular/core';
 import { Router, RouterLink} from '@angular/router';
 import { CommonModule, Location} from '@angular/common';
-import { EntityService} from '../../services/entity.service ';
+import { EntityService} from '../../services/entity.service';
 
 @Component({
   selector: 'app-list',
@@ -48,7 +48,7 @@ export class ListComponent implements OnInit {
  
   selectRow(entity: any) {
     this.entityService.entity=entity;
-    this.router.navigate(["/test"]);    
+    this.router.navigate(["/usuario/update"]);    
   }
   
   delete(entity: any) {
@@ -56,12 +56,5 @@ export class ListComponent implements OnInit {
     this.location.back()
     //this.router.navigate(["/angular/" + entityName + "/list"]);
   }
-
-/* Utility
-  compareFn(c1: any, c2: any): boolean {
-    //return c1 && c2 ? c1.id === c2.id : c1 === c2;
-    return c1 && c2 && c1 === c2;
-  }
-*/
 
 }

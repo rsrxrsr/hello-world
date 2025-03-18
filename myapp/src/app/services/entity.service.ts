@@ -13,7 +13,7 @@ import { DataService } from '../test/data.service';
 export class EntityService {
 
   entity: any = {};
-  db: any | undefined;
+  db: any = {};
   error: string | undefined;
 
   constructor(
@@ -32,9 +32,34 @@ export class EntityService {
           );
   }
 
-  delete (entityName: string, entity: any): void {
-    console.log("service/delete");
+  save (entityName: string, entity: any): Observable<any> {
+    console.log("service/save", entity);
+    return this.repositoryService.save(entityName, entity)
+      .pipe(
+        tap(data => {
+          console.log("res/Save", data);
+          this.entity = data;
+        }),
+        catchError(error => {
+          this.errorHandler(error);
+          return throwError(() => error);
+        })
+      )
   }
+ 
+  delete(entityName: string, entity: any): Observable<any> {
+    console.log("service/delete");
+    return this.repositoryService.delete(entityName, entity.id)
+      .pipe(
+        tap(data => {
+          console.log("res/delete", data);
+        }),
+        catchError(error => {
+          this.errorHandler(error);
+          return throwError(() => error);
+        })
+      )
+  }  
 
 /*
  
@@ -62,7 +87,12 @@ export class EntityService {
       .subscribe();
   }
 
-  save (entityName: string, entity: any): void {
+         return throwError(error);
+        })
+      )
+      .subscribe();
+  }
+ save (entityName: string, entity: any): void {
     console.log("service/save", entity);
     this.repositoryService.save(entityName, entity)
       .pipe(
@@ -72,13 +102,10 @@ export class EntityService {
         }),
         catchError(error => {
           this.errorHandler(error);
-          return throwError(error);
-        })
-      )
+  
+ 
       .subscribe();
-  }
-
-  delete(entityName: string, entity: any): void {
+ delete(entityName: string, entity: any): void {
     console.log("service/delete");
     this.repositoryService.delete(entityName, entity.id)
       .pipe(
@@ -90,7 +117,6 @@ export class EntityService {
           return throwError(error);
         })
       )
-      .subscribe();
   }
 
   fileUpload(formData: FormData): Observable<any> {
@@ -120,12 +146,14 @@ export class EntityService {
       .subscribe();
   }
   // End Observable
-
+*/
   errorHandler(error: any): void {
     console.log("Error=", error);
+    /*
     if (error.indexOf("Error Code: 401") >= 0) {
-      this.router.navigate(["login"]);
+      console.log("not Found")
     }
+    */
   }
- */
+ //
 }

@@ -1,0 +1,21 @@
+<app-form #f [entityName]="'usuario'" >
+
+<div slot="angform">
+  <label for="usuario">Usuario</label>
+  <input type="text"
+      id="usuario"  [(ngModel)]="entity.usuario"
+      required
+      placeholder="..." />
+  <label for="password">Password</label>
+  <input type="text"
+      id="password"  [(ngModel)]="entity.password"
+      required
+      placeholder="..." />
+  <label for="estatus">Estatus</label>
+  <input type="number"
+      id="estatus"  [(ngModel)]="entity.estatus"
+      required
+      placeholder="..." />
+</div>
+
+</app-form>

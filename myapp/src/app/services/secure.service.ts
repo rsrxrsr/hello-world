@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { EntityService} from './entity.service '; 
+import { EntityService} from './entity.service'; 
 
 @ Injectable({
   providedIn: 'root'
