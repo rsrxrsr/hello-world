@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, Subject, throwError } from 'rxjs'; 
-import { tap, catchError } from 'rxjs/operators';
+import { map, tap, catchError, shareReplay } from 'rxjs/operators';
 
 //import { FirebaseService } from './firebase.service'; 
 import { RestService } from './rest.service';
+import { DataService } from '../test/data.service';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +22,14 @@ export class EntityService {
   ) { }
 
   getAll(entityName: string): Observable<any[]> {
-    return this.repositoryService.getAll(entityName);
+    return this.repositoryService.getAll(entityName)
+          .pipe(
+            tap(data => this.db[entityName]=[...data])
+            ,map(data => data.map(entity => {
+                entity.usuario=entity.usuario.toUpperCase();
+                return entity}))
+            ,shareReplay(1)
+          );
   }
 
   delete (entityName: string, entity: any): void {
