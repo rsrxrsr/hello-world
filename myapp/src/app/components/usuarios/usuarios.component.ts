@@ -11,4 +11,11 @@ import { ListComponent } from '../list/list.component';
   standalone: true, 
   imports: [CommonModule, RouterLink, ListComponent]
 })
-export class UsuariosComponent extends ListComponent {}
+export class UsuariosComponent extends ListComponent {
+
+  ngOnInit():void {
+    this.entityName = "funcion";
+    super.ngOnInit();
+  }
+
+}

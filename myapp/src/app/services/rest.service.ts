@@ -60,7 +60,7 @@ export class RestService {
   save(entityName, entity): Observable<any> {
     console.log("Rest/save ", entityName, entity);
     let url = this.getUrl(`restapi/${entityName}`);
-    url=this.getUrl(entityName);
+    //url=this.getUrl(entityName);
     return this.httpClient.post<any>(url, JSON.stringify(entity), this.getHttpOptions())
            // .pipe(catchError(this.errorHandler))
   }
@@ -68,7 +68,7 @@ export class RestService {
   delete(entityName, id) {
     console.log("Rest/delete ", entityName, id);
     let url = this.getUrl(`restapi/${entityName}`) + '/' + id;
-    url=this.getUrl(entityName) + '/' + id;
+    //url=this.getUrl(entityName) + '/' + id;
     return this.httpClient.delete<any>(url, this.getHttpOptions())
           // .pipe(catchError(this.errorHandler))
   }

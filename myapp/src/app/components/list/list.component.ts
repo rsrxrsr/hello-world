@@ -11,25 +11,26 @@ import { EntityService} from '../../services/entity.service';
   standalone: true, 
   imports: [CommonModule, RouterLink]
 })
-export class ListComponent implements OnInit, AfterViewInit {
-    @ViewChild('app-list', { read: ElementRef }) hijoRef: ElementRef | undefined;
+export class ListComponent implements OnInit {
+ // @ViewChild(ListComponent) hijo: ElementRef | undefined;
 
   private router = inject(Router);
   msg : string = "Init";
   error : string | undefined;
 
   @Input()
-  entityName : any = "usuario";
+  public entityName : any = "usuario";
 
   constructor(
     private location: Location,
     public entityService : EntityService,  
     ) { }
-
+/*
   ngAfterViewInit() {
-    if (this.entityName === "usuario" && this.hijoRef)
-       this.entityName = this.hijoRef.nativeElement.getAttribute('entityName');
+    if (this.entityName === "usuario" && this.hijo)
+       this.entityName = (this.hijo as any).elementRef.nativeElement.getAttribute.getAttribute('entityName');
   }
+*/
 
   ngOnInit(): void {
     this.entityService.db = {"usuario": [{"id": 1, "usuario":"un usuario x", "estatus": 1, "password": "un password y"}]};
