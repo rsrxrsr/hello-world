@@ -1,0 +1,27 @@
+
+<app-form #f [entityName]="'funcion'" >
+
+    <div slot="angform">
+      <label for="id">Id</label>
+      <input type="number"
+          id="id"  [(ngModel)]="entity.id"
+          placeholder="..." />
+      <label for="funcion">Funcion</label>
+      <input type="text"
+          id="funcion"  [(ngModel)]="entity.funcion"
+          required
+          placeholder="..." />
+      <label for="url">Url</label>
+      <input type="text"
+          id="url"  [(ngModel)]="entity.url"
+          required
+          placeholder="..." />
+      <label for="metodo">metodo</label>
+      <input type="text"
+          id="metodo"  [(ngModel)]="entity.metodo"
+          required
+          placeholder="..." />
+    </div>
+    
+    </app-form>
+    

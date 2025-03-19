@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, inject} from '@angular/core';
+import { Component, OnInit, Input, inject, ViewChild, AfterViewInit, ElementRef} from '@angular/core';
 import { Router, RouterLink} from '@angular/router';
 import { CommonModule, Location} from '@angular/common';
 import { EntityService} from '../../services/entity.service';
@@ -11,7 +11,8 @@ import { EntityService} from '../../services/entity.service';
   standalone: true, 
   imports: [CommonModule, RouterLink]
 })
-export class ListComponent implements OnInit {
+export class ListComponent implements OnInit, AfterViewInit {
+    @ViewChild('app-list', { read: ElementRef }) hijoRef: ElementRef | undefined;
 
   private router = inject(Router);
   msg : string = "Init";
@@ -24,6 +25,11 @@ export class ListComponent implements OnInit {
     private location: Location,
     public entityService : EntityService,  
     ) { }
+
+  ngAfterViewInit() {
+    if (this.entityName === "usuario" && this.hijoRef)
+       this.entityName = this.hijoRef.nativeElement.getAttribute('entityName');
+  }
 
   ngOnInit(): void {
     this.entityService.db = {"usuario": [{"id": 1, "usuario":"un usuario x", "estatus": 1, "password": "un password y"}]};
@@ -48,7 +54,7 @@ export class ListComponent implements OnInit {
  
   selectRow(entity: any) {
     this.entityService.entity=entity;
-    this.router.navigate(["/usuario/update"]);    
+    this.router.navigate([`/${this.entityName}/update`]);    
   }
   
   delete(entity: any) {

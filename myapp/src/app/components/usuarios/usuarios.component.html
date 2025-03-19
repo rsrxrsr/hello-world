@@ -1,0 +1,30 @@
+<app-list entityName="usuario">
+<div slot="lisTpl">
+    {{entityName}}
+   <table>
+      <thead>
+          <tr>
+              <th>#</th>
+              <th>Usuario</th>
+              <th>Clave</th>
+              <th>Estatus</th>
+          </tr>
+      </thead>
+      <tbody>
+      <!-- 
+          @for (entity of entityService.db[entityName]; track entity.id) {            
+      -->
+          <tr *ngFor="let entity of entityService.db[entityName]">
+              <td>{{entity.id}}</td>
+              <td>{{entity.usuario}}</td>
+              <td>{{entity.password}}</td>
+              <td>{{entity.estatus}}</td>
+              <td>
+                  <button type="button" (click)="selectRow(entity)">Update</button>
+                  <button type="button" (click)="delete(entity)">Delete</button>
+              </td>
+          </tr>
+      </tbody>
+    </table>
+</div>
+</app-list>

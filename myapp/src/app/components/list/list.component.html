@@ -1,21 +1,30 @@
 <div>
-  <h3>Lista {{entityName}}</h3>
-  <button type="button" routerLink="/usuario/create">Create</button>
+	<ng-container *ngTemplateOutlet="headerTpl"></ng-container>				
+    <ng-content select="[slot=lisTpl]"></ng-content>
+    <ng-container *ngTemplateOutlet="footerTpl"></ng-container>
+</div>
+
+<ng-template #headerTpl>
+  <h3> Lista {{entityName}}</h3> 
+  <button type="button" routerLink="{{`/${entityName}/create`}}">Create</button>       
+</ng-template>
+
+ <!--
   <table>
     <thead>
         <tr>
-            <!--<th>#</th>-->
+            <th>#</th>
             <th>Usuario</th>
             <th>Clave</th>
             <th>Estatus</th>
         </tr>
     </thead>
     <tbody>
-    <!-- 
+    <!
         @for (entity of entityService.db[entityName]; track entity.id) {
-        -->
+        ->
         <tr *ngFor="let entity of entityService.db[entityName]">
-            <!--<td>{{entity.id}}</td>-->
+            <td>{{entity.id}}</td>
             <td>{{entity.usuario}}</td>
             <td>{{entity.password}}</td>
             <td>{{entity.estatus}}</td>
@@ -26,6 +35,10 @@
         </tr>
     </tbody>
   </table>
-</div>
-<p>Aviso: {{msg}} </p>
-<p *ngIf="error" > Error: {{error}} </p>
+-->
+
+<ng-template #footerTpl>
+  <p>Aviso: {{msg}} </p>
+  <p *ngIf="error" > Error: {{error}} </p>
+</ng-template>
+
