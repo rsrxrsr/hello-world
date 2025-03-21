@@ -24,7 +24,8 @@ export class EntityService {
   getAll(entityName: string): Observable<any[]> {
     return this.repositoryService.getAll(entityName)
           .pipe(
-            tap(data => this.db[entityName]=[...data["_emmbedded"][entityName]])
+            //tap(data => this.db[entityName]=[...data["_emmbedded"][entityName]])
+            tap(data => this.db[entityName]=[...data])
             ,map(data => data.map(entity => {
                // entity.usuario=entity.usuario.toUpperCase();
                 return entity}))

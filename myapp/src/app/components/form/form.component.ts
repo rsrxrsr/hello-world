@@ -28,7 +28,7 @@ export class FormComponent implements OnInit {
     this.entityName = this.activatedRoute.snapshot.url[0].path
     if (this.activatedRoute.snapshot.params["update"]==="create") {
       this.isUpdate=false
-      this.entityService.entity={}
+      this.entityService.entity={"id":""}
     }
     this.entity=this.entityService.entity
   }

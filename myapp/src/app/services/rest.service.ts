@@ -25,8 +25,8 @@ export class RestService {
    			  ) { }
 
   getUrl(entityName):string {
-    //return this.apiServer + "/entity/" + entityName
-    return this.apiServer + "/entity/restapi/" + entityName
+    return this.apiServer + "/entity/" + entityName
+    //return this.apiServer + "/entity/restapi/" + entityName
   }
 
   private getHttpOptions() {
