@@ -15,7 +15,7 @@ export class FormComponent implements OnInit {
   @Input() entityName: string = "usuario";
 
   entity:any={};
-  isUpdate:Boolean=false;
+  isUpdate:Boolean=true;
   msg: string = "Ready"
   
   constructor(
@@ -25,10 +25,12 @@ export class FormComponent implements OnInit {
     ) { }
 
   ngOnInit(): void {
-    if (this.activatedRoute.snapshot.params["update"]==="update") {
-      this.isUpdate=true
-      this.entity=this.entityService.entity
+    this.entityName = this.activatedRoute.snapshot.url[0].path
+    if (this.activatedRoute.snapshot.params["update"]==="create") {
+      this.isUpdate=false
+      this.entityService.entity={}
     }
+    this.entity=this.entityService.entity
   }
   
   save() {

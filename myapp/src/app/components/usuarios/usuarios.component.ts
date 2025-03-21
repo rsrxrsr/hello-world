@@ -12,10 +12,10 @@ import { ListComponent } from '../list/list.component';
   imports: [CommonModule, RouterLink, ListComponent]
 })
 export class UsuariosComponent extends ListComponent {
-
+/*
   ngOnInit():void {
     this.entityName = "funcion";
     super.ngOnInit();
   }
-
+*/
 }

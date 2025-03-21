@@ -24,9 +24,9 @@ export class EntityService {
   getAll(entityName: string): Observable<any[]> {
     return this.repositoryService.getAll(entityName)
           .pipe(
-            tap(data => this.db[entityName]=[...data])
+            tap(data => this.db[entityName]=[...data["_emmbedded"][entityName]])
             ,map(data => data.map(entity => {
-                entity.usuario=entity.usuario.toUpperCase();
+               // entity.usuario=entity.usuario.toUpperCase();
                 return entity}))
             ,shareReplay(1)
           );

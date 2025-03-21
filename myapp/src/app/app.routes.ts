@@ -12,9 +12,9 @@ import { UsuariosComponent } from './components/usuarios/usuarios.component';
     { path: 'list', component: ListComponent }, 
     { path: 'form/:update', component: FormComponent}, 
     { path: 'usuario/:update', component: UsuarioComponent},
-    { path: 'usuarios', component: UsuariosComponent},
+    { path: 'usuarios/:entityName', component: UsuariosComponent},
     { path: 'funcion/:update', component: FuncionComponent},
-    { path: 'funciones', component: FuncionesComponent},
+    { path: 'funciones/:entityName', component: FuncionesComponent},
     { path: 'test', component: TestComponent},
     { path: '', redirectTo:  'test', pathMatch: 'full'},
     { path: '**', redirectTo: '' }

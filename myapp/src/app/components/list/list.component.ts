@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, inject, ViewChild, AfterViewInit, ElementRef} from '@angular/core';
-import { Router, RouterLink} from '@angular/router';
+import { ActivatedRoute, Router, RouterLink} from '@angular/router';
 import { CommonModule, Location} from '@angular/common';
 import { EntityService} from '../../services/entity.service';
 
@@ -22,6 +22,7 @@ export class ListComponent implements OnInit {
   public entityName : any = "usuario";
 
   constructor(
+     private activatedRoute: ActivatedRoute,
     private location: Location,
     public entityService : EntityService,  
     ) { }
@@ -33,6 +34,7 @@ export class ListComponent implements OnInit {
 */
 
   ngOnInit(): void {
+    this.entityName=this.activatedRoute.snapshot.params["entityName"]
     this.entityService.db = {"usuario": [{"id": 1, "usuario":"un usuario x", "estatus": 1, "password": "un password y"}]};
     //this.entityName= this.inputEntityName ? this.inputEntityName : this.activatedRoute.snapshot.url[1].path;
     this.read();

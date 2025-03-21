@@ -25,7 +25,8 @@ export class RestService {
    			  ) { }
 
   getUrl(entityName):string {
-    return this.apiServer + "/entity/" + entityName
+    //return this.apiServer + "/entity/" + entityName
+    return this.apiServer + "/entity/restapi/" + entityName
   }
 
   private getHttpOptions() {
@@ -51,24 +52,23 @@ export class RestService {
 
   getAll(entityName): Observable<any[]> {
     console.log("Rest/list ", entityName);
-    //let url = this.activatedRoute.snapshot.url[1].path;
-    return this.httpClient.get<any[]>(this.getUrl(entityName));
+    //let url = this.getUrl(this.activatedRoute.snapshot.url[0].path);
+    let url = this.getUrl(entityName)
+    return this.httpClient.get<any[]>(url);
     //, this.getHttpOptions())
     // .pipe(catchError(this.errorHandler))
   }
 
   save(entityName, entity): Observable<any> {
     console.log("Rest/save ", entityName, entity);
-    let url = this.getUrl(`restapi/${entityName}`);
-    //url=this.getUrl(entityName);
+    let url = this.getUrl(entityName);
     return this.httpClient.post<any>(url, JSON.stringify(entity), this.getHttpOptions())
            // .pipe(catchError(this.errorHandler))
   }
 
   delete(entityName, id) {
     console.log("Rest/delete ", entityName, id);
-    let url = this.getUrl(`restapi/${entityName}`) + '/' + id;
-    //url=this.getUrl(entityName) + '/' + id;
+    let url = `${this.getUrl(entityName)}/${id}`;
     return this.httpClient.delete<any>(url, this.getHttpOptions())
           // .pipe(catchError(this.errorHandler))
   }
