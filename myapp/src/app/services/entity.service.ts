@@ -12,9 +12,9 @@ import { DataService } from '../test/data.service';
 })
 export class EntityService {
 
+  db: any = {};  
   entity: any = {};
-  db: any = {};
-  error: string | undefined;
+  status: string | undefined;
 
   constructor(
     //private router: Router,
@@ -22,6 +22,7 @@ export class EntityService {
   ) { }
 
   getAll(entityName: string): Observable<any[]> {
+    //console.log("service/getAll:", entityName)
     return this.repositoryService.getAll(entityName)
           .pipe(
             //tap(data => this.db[entityName]=[...data["_emmbedded"][entityName]])
@@ -34,7 +35,7 @@ export class EntityService {
   }
 
   save (entityName: string, entity: any): Observable<any> {
-    console.log("service/save", entity);
+    //console.log("service/save", entity);
     return this.repositoryService.save(entityName, entity)
       .pipe(
         tap(data => {
@@ -49,11 +50,11 @@ export class EntityService {
   }
  
   delete(entityName: string, entity: any): Observable<any> {
-    console.log("service/delete");
+    //console.log("service/delete");
     return this.repositoryService.delete(entityName, entity.id)
       .pipe(
         tap(data => {
-          console.log("res/delete", data);
+          console.log("response/delete", data);
         }),
         catchError(error => {
           this.errorHandler(error);

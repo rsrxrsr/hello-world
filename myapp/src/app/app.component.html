@@ -346,8 +346,16 @@
     <li><a routerLink="/funcion/create" routerLinkActive="active" ariaCurrentWhenActive="page">Funcion Component</a></li>
     <li><a routerLink="/usuario/create" routerLinkActive="active" ariaCurrentWhenActive="page">Usuario Component</a></li> 
     -->
-    <li><a routerLink="/usuarios/usuario" routerLinkActive="active" ariaCurrentWhenActive="page">Usuarios Component</a></li>
-    <li><a routerLink="/funciones/funcion" routerLinkActive="active" ariaCurrentWhenActive="page">Funciones Component</a></li> 
+    <li><a routerLink="/usuarios/usuario" 
+           routerLinkActive="active"
+           ariaCurrentWhenActive="page"
+           (click)="handleLinkClick($event)"
+           >Usuarios Component</a></li>
+    <li><a routerLink="/funciones/funcion"
+           routerLinkActive="active"
+           ariaCurrentWhenActive="page"
+           (click)="handleLinkClick($event)"
+           >Funciones Component</a></li> 
     <li><a routerLink="/test" routerLinkActive="active" ariaCurrentWhenActive="page">Test Component</a></li> 
   </ul>
 </nav>

@@ -1,7 +1,9 @@
-<app-list entityName="usuario">
-<div slot="lisTpl">
-    {{entityName}}
-   <table>
+<!-- Componente: UsuariosComponent -->
+<app-list isRead="true" >
+<div lisTpl>
+
+   {{entityName}} isRead={{isRead}}
+    <table>
       <thead>
           <tr>
               <th>#</th>
@@ -26,5 +28,6 @@
           </tr>
       </tbody>
     </table>
-</div>
+
+</div>   
 </app-list>

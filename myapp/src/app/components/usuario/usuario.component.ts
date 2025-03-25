@@ -3,7 +3,6 @@ import { CommonModule} from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 import { FormComponent } from '../form/form.component';
-
 @Component({
   selector:    'app-usuario',
   templateUrl: './usuario.component.html',

@@ -1,35 +1,12 @@
 <div>
 	<ng-container *ngTemplateOutlet="headerTpl"></ng-container>
-	<form id="entityForm" #entityForm="ngForm">					
-      <ng-content select="[slot=angform]"></ng-content>
-      <ng-container *ngTemplateOutlet="angBtnsTpl"></ng-container>
-    </form>
-    <p> {{msg}} </p>
+  <ng-content select="[formTpl]"></ng-content>
+  <ng-container *ngTemplateOutlet="angBtnsTpl"></ng-container>
 </div>
 
 <ng-template #headerTpl>
-  <h3>{{entityName}}</h3>        
+  <h3>Forma: {{entityName}}</h3>        
 </ng-template>
-
-<!--
-
-  <template slot="angform">
-    <label for="usuario">Usuario</label>
-      <input type="text"
-             id="usuario"  [(ngModel)]="entity.usuario"
-             required
-             placeholder="..." />
-      <input type="text"
-             id="password"  [(ngModel)]="entity.password"
-             required
-             placeholder="..." />
-      <input type="number"
-             id="estatus"  [(ngModel)]="entity.estatus"
-             required
-             placeholder="..." />
-  </template>
-
--->
   
 <ng-template #angBtnsTpl >
   <div>
@@ -37,4 +14,5 @@
     <button (click)="delete()" [disabled]="entityForm.invalid" *ngIf="isUpdate">Borrar</button>
     <button (click)="back()">Cerrar</button>
   </div>
+  <p> {{ status }} </p>
 </ng-template>

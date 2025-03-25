@@ -11,4 +11,10 @@ import { ListComponent } from './components/list/list.component';
 })
 export class AppComponent {
   title = 'myapp';
+
+  handleLinkClick(event: MouseEvent): void {
+    //event.stopPropagation(); // Detiene la propagación del evento al padre
+    console.log('RouterLink clicked, event propagation stopped.');
+  }  
+
 }

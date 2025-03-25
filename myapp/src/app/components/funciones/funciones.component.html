@@ -1,6 +1,7 @@
-<app-list entityName="funcion">
-<div slot="lisTpl">
-    {{entityName}}
+<app-list isRead="true" >
+<div lisTpl>
+    {{entityName}} isRead={{isRead}}
+
    <table>
     <thead>
         <tr>
@@ -26,5 +27,6 @@
         </tr>
     </tbody>
   </table>
+
 </div>
 </app-list>

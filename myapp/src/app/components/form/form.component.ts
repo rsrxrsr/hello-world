@@ -1,8 +1,8 @@
-import { Component, OnInit, Input} from '@angular/core';
+import { Component, OnInit, Input, ContentChild} from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { CommonModule, Location} from '@angular/common';
 import { EntityService} from '../../services/entity.service';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-form',
@@ -12,53 +12,63 @@ import { FormsModule } from '@angular/forms';
   imports: [CommonModule, FormsModule]
 })
 export class FormComponent implements OnInit {
-  @Input() entityName: string = "usuario";
+  @ContentChild('entityForm') entityForm!: NgForm;  
+  @Input() entityName: any | undefined;
 
   entity:any={};
   isUpdate:Boolean=true;
-  msg: string = "Ready"
+  status: string="Seleccione opción...";
   
   constructor(
     private activatedRoute: ActivatedRoute,
     private location: Location,
     public entityService : EntityService
     ) { }
-
-  ngOnInit(): void {
-    this.entityName = this.activatedRoute.snapshot.url[0].path
+     
+  ngOnInit(): void {    
+    this.entityName = (this.entityName) ? this.entityName : this.activatedRoute.snapshot.url[0].path;
+    console.log("formComponente", this.entityName)
     if (this.activatedRoute.snapshot.params["update"]==="create") {
       this.isUpdate=false
-      this.entityService.entity={"id":""}
+      if (this.entityService.entity[this.entityName]) {
+        let entity= this.entityService.entity[this.entityName]
+        Object.keys(entity).forEach((key) => {delete entity[key]})  
+      } else {
+        this.entityService.entity[this.entityName] = {}
+      }        
     }
-    this.entity=this.entityService.entity
+    this.entity=this.entityService.entity[this.entityName]
+    this.entityService.status="Seleccione opción..."    
   }
   
   save() {
+    //console.log("save", this.entityName, this.entity)
     this.entityService.save(this.entityName,this.entity).subscribe({
       next: (data) => {
         this.entity = data
-        this.msg="Save..."
+        this.status="Registro efectuado..."
       },
       error: (error) => {
-        this.msg = error.message;
+        this.status = error.message
       }
-    }); 
+    })  
   }
   
   delete() {
+    //console.log("delete", this.entityName, this.entity.id)
     this.entityService.delete(this.entityName,this.entity).subscribe({
       next: (data) => {
         this.entity = data
-        this.msg="Save..."
+        this.status="Baja efectuada..."
       },
       error: (error) => {
-        this.msg = error.message;
+        this.status = error.message
       }
-    });
+    })
   }
   
   back() {
-  	this.location.back();
+  	this.location.back()
   }
 
 /* Utility
@@ -67,5 +77,10 @@ export class FormComponent implements OnInit {
     return c1 && c2 && c1 === c2;
   }
 */
+
+/*
+  this.entityForm?.valid //valida forma
+  this.entityForm?.controls["campo"]?.valid //valida campo
+*/ 
 
 }

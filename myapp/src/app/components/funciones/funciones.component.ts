@@ -1,5 +1,4 @@
 import { Component} from '@angular/core';
-import { RouterLink} from '@angular/router';
 import { CommonModule} from '@angular/common';
 
 import { ListComponent } from '../list/list.component';
@@ -9,13 +8,6 @@ import { ListComponent } from '../list/list.component';
   templateUrl: './funciones.component.html',
   styleUrls: ['./funciones.component.scss'],
   standalone: true, 
-  imports: [CommonModule, RouterLink, ListComponent]
+  imports: [CommonModule, ListComponent]
 })
-export class FuncionesComponent extends ListComponent {
-/*
-  ngOnInit():void {
-    this.entityName = "funcion";
-    super.ngOnInit();
-  }
-*/
-}
+export class FuncionesComponent extends ListComponent {}

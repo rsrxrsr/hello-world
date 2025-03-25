@@ -62,14 +62,14 @@ export class RestService {
   save(entityName, entity): Observable<any> {
     console.log("Rest/save ", entityName, entity);
     let url = this.getUrl(entityName);
-    return this.httpClient.post<any>(url, JSON.stringify(entity), this.getHttpOptions())
+    return this.httpClient.post<any>(url, JSON.stringify(entity), this.getHttpOptions());
            // .pipe(catchError(this.errorHandler))
   }
 
   delete(entityName, id) {
-    console.log("Rest/delete ", entityName, id);
     let url = `${this.getUrl(entityName)}/${id}`;
-    return this.httpClient.delete<any>(url, this.getHttpOptions())
+    console.log("Rest/delete ", url);
+    return this.httpClient.delete<any>(url, this.getHttpOptions());
           // .pipe(catchError(this.errorHandler))
   }
 

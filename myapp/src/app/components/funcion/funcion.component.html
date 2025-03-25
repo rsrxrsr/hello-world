@@ -1,27 +1,33 @@
 
-<app-form #f [entityName]="'funcion'" >
+<app-form #f entityName="funcion">
+  <div formTpl>
 
-    <div slot="angform">
+    <form id="idForm" #entityForm="ngForm">					
       <label for="id">Id</label>
       <input type="number"
-          id="id"  [(ngModel)]="entity.id"
+          id="id"  name="id" [(ngModel)]="entity.id"
           placeholder="..." />
       <label for="funcion">Funcion</label>
       <input type="text"
-          id="funcion"  [(ngModel)]="entity.funcion"
-          required
+          id="funcion" name="funcion" [(ngModel)]="entity.funcion"
+          required min="2"
           placeholder="..." />
+        <!-- @if (entityForm.controls['funcion'].invalid && entityForm.controls['funcion'].touched) { -->
+          <div *ngIf="entityForm.controls['funcion']?.invalid && entityForm.controls['funcion']?.touched">
+            <small class="text-danger">El campo Funcion es obligatorio.</small>
+          </div>          
       <label for="url">Url</label>
       <input type="text"
-          id="url"  [(ngModel)]="entity.url"
+          id="url"  name="url" [(ngModel)]="entity.url"
           required
           placeholder="..." />
       <label for="metodo">metodo</label>
       <input type="text"
-          id="metodo"  [(ngModel)]="entity.metodo"
+          id="metodo"  name="metodo" [(ngModel)]="entity.metodo"
           required
           placeholder="..." />
-    </div>
-    
-    </app-form>
+    </form>      
+
+  </div>    
+</app-form>
     

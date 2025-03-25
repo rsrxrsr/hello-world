@@ -1,6 +1,6 @@
 import { Component} from '@angular/core';
-import { RouterLink} from '@angular/router';
 import { CommonModule} from '@angular/common';
+//import { RouterLink} from '@angular/router';
 
 import { ListComponent } from '../list/list.component';
 
@@ -9,13 +9,6 @@ import { ListComponent } from '../list/list.component';
   templateUrl: './usuarios.component.html',
   styleUrls: ['./usuarios.component.scss'],
   standalone: true, 
-  imports: [CommonModule, RouterLink, ListComponent]
+  imports: [CommonModule, ListComponent]
 })
-export class UsuariosComponent extends ListComponent {
-/*
-  ngOnInit():void {
-    this.entityName = "funcion";
-    super.ngOnInit();
-  }
-*/
-}
+export class UsuariosComponent extends ListComponent {}
