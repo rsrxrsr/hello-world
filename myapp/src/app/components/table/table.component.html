@@ -1,0 +1,29 @@
+<table id="miTabla" class="display">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Edad</th>
+        <th>Ciudad</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let dato of datos; let i = index" [ngClass]="{'zebra': i % 2 === 1}">
+        <td>{{ dato.nombre }}</td>
+        <td>{{ dato.edad }}</td>
+        <td>{{ dato.ciudad }}</td>
+        <td>
+          <input type="checkbox" [checked]="seleccionados.includes(dato)" (change)="toggleSeleccion(dato)">
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  
+  <div class="search-filter">
+    <label for="filter">Filtrar:</label>
+    <input type="text" id="filter" #filterInput (keyup)="aplicarFiltro(filterInput.value)">
+  </div>
+  
+  <div class="selected-items" *ngIf="seleccionados.length > 0">
+    Elementos seleccionados: {{ getSeleccionados }}
+  </div>

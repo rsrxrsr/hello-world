@@ -1,0 +1,21 @@
+#miTabla.display tbody tr:nth-child(odd) {
+    background-color: #f9f9f9; /* Estilo zebra */
+  }
+  
+  #miTabla.display tbody tr.selected {
+    background-color: #e0f7fa; /* Resaltar selección (puedes manejarlo con clases de DataTables también) */
+  }
+  
+  .search-filter {
+    margin-top: 20px;
+    margin-bottom: 10px;
+  }
+  
+  .search-filter label {
+    margin-right: 10px;
+  }
+  
+  .selected-items {
+    margin-top: 10px;
+    font-style: italic;
+  }
