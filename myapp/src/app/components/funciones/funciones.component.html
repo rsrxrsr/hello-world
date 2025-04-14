@@ -1,21 +1,25 @@
-<app-list isRead="true" >
+<app-list [entityName]="entityName" isRead="true" [status]="status">
+      
 <div lisTpl>
     {{entityName}} isRead={{isRead}}
 
-   <table>
-    <thead>
+    <table id="miTabla" class="display stripe" style="width:100%">
+        <thead>
         <tr>
+            <th><input type="checkbox" id="seleccionarTodo"></th>
             <th>#</th>
             <th>Funcion</th>
             <th>Url</th>
             <th>Metodo</th>
+            <td></td>
         </tr>
-    </thead>
-    <tbody>
+        </thead>
+        <tbody>
     <!-- 
         @for (entity of entityService.db[entityName]; track entity.id) {
         -->
         <tr *ngFor="let entity of entityService.db[entityName]">
+            <th><input type="checkbox" class="checkFila"></th>
             <td>{{entity.id}}</td>
             <td>{{entity.funcion}}</td>
             <td>{{entity.url}}</td>
@@ -26,7 +30,7 @@
             </td>
         </tr>
     </tbody>
-  </table>
+</table>
 
 </div>
 </app-list>

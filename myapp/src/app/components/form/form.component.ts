@@ -1,8 +1,13 @@
-import { Component, OnInit, Input, ContentChild} from '@angular/core';
+import { Component, OnInit, Input, ContentChild, inject} from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { CommonModule, Location} from '@angular/common';
-import { EntityService} from '../../services/entity.service';
 import { FormsModule, NgForm } from '@angular/forms';
+
+import { ArrayService } from '../../services/array.service';
+//import { Irepository } from '../../Interface/Irepository'; // inyectar servicio
+import { EntityService} from '../../services/entity.service';
+import { Irepository } from '../../Interface/Irepository';
+//import { RestService } from '../../services/rest.service';
 
 @Component({
   selector: 'app-form',
@@ -18,12 +23,13 @@ export class FormComponent implements OnInit {
   entity:any={};
   isUpdate:Boolean=true;
   status: string="Seleccione opción...";
+  //public entityService : Irepository = inject(ArrayService);
   
   constructor(
     private activatedRoute: ActivatedRoute,
     private location: Location,
-    public entityService : EntityService
-    ) { }
+    public entityService: EntityService // inyectar servicio
+  ) {}
      
   ngOnInit(): void {    
     this.entityName = (this.entityName) ? this.entityName : this.activatedRoute.snapshot.url[0].path;
@@ -38,7 +44,6 @@ export class FormComponent implements OnInit {
       }        
     }
     this.entity=this.entityService.entity[this.entityName]
-    this.entityService.status="Seleccione opción..."    
   }
   
   save() {
@@ -50,8 +55,7 @@ export class FormComponent implements OnInit {
       },
       error: (error) => {
         this.status = error.message
-      }
-    })  
+    }})  
   }
   
   delete() {
@@ -63,8 +67,7 @@ export class FormComponent implements OnInit {
       },
       error: (error) => {
         this.status = error.message
-      }
-    })
+    }})
   }
   
   back() {

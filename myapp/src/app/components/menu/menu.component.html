@@ -1,0 +1,38 @@
+<nav>
+<ul>
+<li><a href="#home" class="home">Home</a></li>
+<li><a routerLink="/crud/create" 
+       routerLinkActive="active"
+       ariaCurrentWhenActive="page"
+    >CRUD Component</a></li>
+<li><a routerLink="/test"
+       routerLinkActive="active"
+       ariaCurrentWhenActive="page"
+    >Test Component</a></li> 
+<li class="dropdown">
+    <a href="javascript:void(0)" class="dropbtn">Componentes</a>
+    <div class="dropdown-content">
+        <a routerLink="/usuarios/create"
+           routerLinkActive="active"
+           ariaCurrentWhenActive="page">
+           Usuario Component</a> 
+        <a routerLink="/usuarios/list" 
+           routerLinkActive="active"
+           ariaCurrentWhenActive="page"
+           (click)="handleLinkClick($event)">
+           Usuarios Component</a>
+        <a routerLink="/funcions/create"
+           routerLinkActive="active"
+           ariaCurrentWhenActive="page"
+           >Funcion Component</a>
+        <a routerLink="/funcions/list"
+            routerLinkActive="active"
+            ariaCurrentWhenActive="page"
+            (click)="handleLinkClick($event)"
+        >Funciones Component</a> 
+   </div>
+</li>
+<li class="right"><a href="#logout">Logout</a></li>
+</ul>
+</nav>
+        

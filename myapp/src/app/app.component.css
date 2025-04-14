@@ -1,0 +1,34 @@
+.content {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+.sidebar {
+    flex: 1;
+    list-style: none;
+    padding: 0px;
+    background-color: #f8f9fa;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    height: 400px;
+    bottom: 50px;
+}
+
+.main-content {
+    flex: 3;
+    padding-left: 20px;
+    background-color: #f8f9fa;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+footer {
+    position: fixed;
+    width: 100%;
+    background-color: #f8f9fa;
+    padding: 20px;
+    text-align: center;
+    font-size: 14px;
+    color: #6c757d;
+}

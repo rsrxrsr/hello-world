@@ -2,9 +2,9 @@ import { inject, Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpRequest,  HttpResponse, HttpEventType, HttpErrorResponse } from "@angular/common/http";
 
 import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, map, shareReplay } from 'rxjs/operators';
 
-import { ActivatedRoute } from '@angular/router';
+//import { Router } from '@angular/router';
 
 //import { environment } from '../../environments/environment';
 
@@ -13,20 +13,20 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class RestService {
 
-  private activatedRoute = inject(ActivatedRoute);
+  //private activatedRoute = inject(ActivatedRoute);
 
   //private apiServer = environment.apiServer;
-
-  private apiServer = 'https://effective-space-chainsaw-j49r5grgqvqcpp47-8080.app.github.dev'; // Ejemplo de API
+  //private apiServer = 'https://effective-space-chainsaw-j49r5grgqvqcpp47-8080.app.github.dev'; // Ejemplo de API
+  private apiServer = 'http://localhost:8080'; // Ejemplo de API
 
 
   constructor(private httpClient: HttpClient,
-   			  //private activatedRoute: ActivatedRoute
-   			  ) { }
+   	//private router: Router
+  ) {}
 
   getUrl(entityName):string {
-    return this.apiServer + "/entity/" + entityName
-    //return this.apiServer + "/entity/restapi/" + entityName
+    //console.log("getUrl", this.apiServer + "/entity/restapi/" + entityUrl) 
+    return this.apiServer + "/entity/restapi/" + entityName    //return this.apiServer + "/entity/" + entityName
   }
 
   private getHttpOptions() {
@@ -51,12 +51,12 @@ export class RestService {
   logout() {}
 
   getAll(entityName): Observable<any[]> {
-    console.log("Rest/list ", entityName);
-    //let url = this.getUrl(this.activatedRoute.snapshot.url[0].path);
-    let url = this.getUrl(entityName)
-    return this.httpClient.get<any[]>(url);
-    //, this.getHttpOptions())
-    // .pipe(catchError(this.errorHandler))
+    return this.httpClient.get<any[]>(this.getUrl(entityName))  //, this.getHttpOptions())
+      .pipe(map (data => data["_embedded"][entityName].map(entity => {
+                  entity.id=entity["_links"]["self"].href.split("/").pop();
+            return entity}))
+           ,shareReplay(1)
+           , catchError(this.errorHandler))
   }
 
   save(entityName, entity): Observable<any> {
@@ -109,8 +109,8 @@ export class RestService {
       // Get server-side error
       errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
     }
-    console.log(errorMessage);
-    return throwError(() => (errorMessage));
+    console.log("RestService", errorMessage);
+    return throwError(() => (error));
   }
 
 }

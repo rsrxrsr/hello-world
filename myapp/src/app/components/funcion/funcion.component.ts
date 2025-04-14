@@ -11,4 +11,4 @@ import { FormComponent } from '../form/form.component';
   standalone: true, 
   imports: [CommonModule, FormsModule, FormComponent]
 })
-export class FuncionComponent extends FormComponent { }
+export class FuncionComponent extends FormComponent {}

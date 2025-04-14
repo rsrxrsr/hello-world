@@ -1,0 +1,86 @@
+<style>
+    /* Estilo Zebra */
+    table.dataTable.stripe tbody tr.odd {
+        background-color: #f9f9f9;
+    }
+
+    /* Resaltar selección */
+    table.dataTable tbody tr.selected {
+        background-color: #add8e6 !important;
+    }
+</style>
+      
+<div lisTpl>
+    {{entityName}} isRead={{isRead}}
+
+    <table id="miTabla" class="display stripe" style="width:100%">
+        <thead>
+        <tr>
+            <th><input type="checkbox" id="seleccionarTodo"></th>
+            <th>#</th>
+            <th>Funcion</th>
+            <th>Url</th>
+            <th>Metodo</th>
+            <td></td>
+        </tr>
+        </thead>
+        <tbody>
+    <!-- 
+        @for (entity of entityService.db[entityName]; track entity.id) {
+        -->
+        <tr *ngFor="let entity of entityService.db[entityName]">
+            <th><input type="checkbox" class="checkFila"></th>
+            <td>{{entity.id}}</td>
+            <td>{{entity.funcion}}</td>
+            <td>{{entity.url}}</td>
+            <td>{{entity.metodo}}</td>
+            <td>
+                <button type="button" (click)="selectRow(entity)">Update</button>
+                <button type="button" (click)="delete(entity)">Delete</button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+</div>
+
+<script>
+    $(document).ready(function() {
+        var tabla = $('#miTabla').DataTable({
+            "paging": true, // Habilitar paginación
+            "ordering": true, // Habilitar ordenamiento
+            "searching": true, // Habilitar filtrado
+            "stripeClasses": ['odd', 'even'], // Clases para el estilo zebra
+            select: {
+                style: 'multi', // Habilitar selección múltiple
+                selector: 'td:first-child' // Seleccionar la fila al hacer clic en la primera celda (checkbox)
+            },
+            columnDefs: [ {
+                orderable: false,
+                className: 'select-checkbox',
+                targets:   [0]
+            } ],
+            order: [[ 1, 'asc' ]] // Orden inicial por la segunda columna (Nombre)
+        });
+  
+        // Manejar el evento de clic en el checkbox "Seleccionar Todo"
+        $('#seleccionarTodo').on('click', function(){
+            if(this.checked){
+                tabla.rows().select();
+            } else {
+                tabla.rows().deselect();
+            }
+        });
+  
+        // Manejar el evento de selección/deselección de filas
+        tabla.on('select deselect', function () {
+            if (tabla.rows({ selected: true }).count() === tabla.rows().count()) {
+                $('#seleccionarTodo').prop('checked', true);
+            } else {
+                $('#seleccionarTodo').prop('checked', false);
+            }
+        });
+    });
+  </script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>

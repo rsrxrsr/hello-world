@@ -5,7 +5,7 @@ import { map, tap, catchError, shareReplay } from 'rxjs/operators';
 
 //import { FirebaseService } from './firebase.service'; 
 import { RestService } from './rest.service';
-import { DataService } from '../test/data.service';
+import { ArrayService } from './array.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,12 +14,11 @@ export class EntityService {
 
   db: any = {};  
   entity: any = {};
-  status: string | undefined;
 
   constructor(
     //private router: Router,
-    public repositoryService: RestService
-  ) { }
+    public repositoryService: ArrayService
+  ) {}
 
   getAll(entityName: string): Observable<any[]> {
     //console.log("service/getAll:", entityName)
@@ -30,37 +29,25 @@ export class EntityService {
             ,map(data => data.map(entity => {
                // entity.usuario=entity.usuario.toUpperCase();
                 return entity}))
+            /*      
+            , catchError(error =>{
+                //console.log("EntityService", `Error Code: ${error.status}\nMessage: ${error.message}`);
+                //this.status = error.message;
+                return throwError(() => (error))
+              })
+            */        
             ,shareReplay(1)
           );
   }
 
   save (entityName: string, entity: any): Observable<any> {
     //console.log("service/save", entity);
-    return this.repositoryService.save(entityName, entity)
-      .pipe(
-        tap(data => {
-          console.log("res/Save", data);
-          this.entity = data;
-        }),
-        catchError(error => {
-          this.errorHandler(error);
-          return throwError(() => error);
-        })
-      )
+    return this.repositoryService.save(entityName, entity);
   }
  
   delete(entityName: string, entity: any): Observable<any> {
     //console.log("service/delete");
-    return this.repositoryService.delete(entityName, entity.id)
-      .pipe(
-        tap(data => {
-          console.log("response/delete", data);
-        }),
-        catchError(error => {
-          this.errorHandler(error);
-          return throwError(() => error);
-        })
-      )
+    return this.repositoryService.delete(entityName, entity.id);
   }  
 
 /*
@@ -71,54 +58,6 @@ export class EntityService {
 
   logout(): void {
     this.repositoryService.logout();
-  }
-
-  getAll(entityName: string): void {
-    console.log("service/getAll");
-    this.repositoryService.getAll(entityName)
-      .pipe(
-        tap(data => {
-          console.log("res/getAll", data);
-          this.db[entityName] = data;
-        }),
-        catchError(error => {
-          this.errorHandler(error);
-          return throwError(error)
-        })
-      )
-      .subscribe();
-  }
-
-         return throwError(error);
-        })
-      )
-      .subscribe();
-  }
- save (entityName: string, entity: any): void {
-    console.log("service/save", entity);
-    this.repositoryService.save(entityName, entity)
-      .pipe(
-        tap(data => {
-          console.log("res/Save", data);
-          this.entity = data;
-        }),
-        catchError(error => {
-          this.errorHandler(error);
-  
- 
-      .subscribe();
- delete(entityName: string, entity: any): void {
-    console.log("service/delete");
-    this.repositoryService.delete(entityName, entity.id)
-      .pipe(
-        tap(data => {
-          console.log("res/delete", data);
-        }),
-        catchError(error => {
-          this.errorHandler(error);
-          return throwError(error);
-        })
-      )
   }
 
   fileUpload(formData: FormData): Observable<any> {

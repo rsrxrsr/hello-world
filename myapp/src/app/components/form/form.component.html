@@ -1,14 +1,14 @@
 <div>
 	<ng-container *ngTemplateOutlet="headerTpl"></ng-container>
   <ng-content select="[formTpl]"></ng-content>
-  <ng-container *ngTemplateOutlet="angBtnsTpl"></ng-container>
+  <ng-container *ngTemplateOutlet="footerTpl"></ng-container>
 </div>
 
 <ng-template #headerTpl>
   <h3>Forma: {{entityName}}</h3>        
 </ng-template>
   
-<ng-template #angBtnsTpl >
+<ng-template #footerTpl >
   <div>
     <button (click)="save()"   [disabled]="entityForm.invalid">Guardar</button>
     <button (click)="delete()" [disabled]="entityForm.invalid" *ngIf="isUpdate">Borrar</button>

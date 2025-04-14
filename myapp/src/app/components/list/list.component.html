@@ -3,6 +3,7 @@
   <ng-content select="[lisTpl]" ></ng-content>
   <ng-container *ngTemplateOutlet="footerTpl"></ng-container>
 </div>
+
 <ng-template #headerTpl>
   <h3> Lista {{entityName}}</h3> 
   <a class="btn btn-primary"
@@ -15,7 +16,6 @@
 <ng-template #footerTpl>
   <!-- @if (msg) { -->
     <p class="alert alert-danger">
-        {{ entityService.status }}
+        {{ status }}
     </p>
 </ng-template>
-
