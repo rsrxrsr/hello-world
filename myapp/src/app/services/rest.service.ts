@@ -35,7 +35,8 @@ export class RestService {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
         //'Authorization': 'Basic ' + token  
-        //'Access-Control-Allow-Origin':'http://localhost:8080',
+        //'Access-Control-Allow-Origin':'http://localhost:8080, http://localhost:4200',
+        //'Access-Control-Allow-Headers': 'Content-Type, Authorization',
         //'Access-Control-Allow-Methods': 'GET, POST, DELETE, PUT, HEAD, OPTIONS',
       })
     }
@@ -62,15 +63,15 @@ export class RestService {
   save(entityName, entity): Observable<any> {
     console.log("Rest/save ", entityName, entity);
     let url = this.getUrl(entityName);
-    return this.httpClient.post<any>(url, JSON.stringify(entity), this.getHttpOptions());
-           // .pipe(catchError(this.errorHandler))
+    return this.httpClient.post<any>(url, entity, this.getHttpOptions()) 
+          .pipe(catchError(this.errorHandler)) // *** JSON.stringify(entity) ***
   }
 
   delete(entityName, id) {
     let url = `${this.getUrl(entityName)}/${id}`;
     console.log("Rest/delete ", url);
-    return this.httpClient.delete<any>(url, this.getHttpOptions());
-          // .pipe(catchError(this.errorHandler))
+    return this.httpClient.delete<any>(url, this.getHttpOptions())
+          .pipe(catchError(this.errorHandler))
   }
 
   fileUpload(formData): Observable<any>  {
@@ -105,11 +106,20 @@ export class RestService {
     if(error.error instanceof ErrorEvent) {
       // Get client-side error
       errorMessage = error.error.message;
-    } else {
-      // Get server-side error
-      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
-    }
+    } else 
+    // Get server-side error
+      switch (error.status) {
+        case 404:
+          errorMessage = "Registro Inexistente";
+          break;
+        case 409:
+          errorMessage = "Registro Duplicado";
+          break
+        default:
+          errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+    }    
     console.log("RestService", errorMessage);
+    error.message = errorMessage;
     return throwError(() => (error));
   }
 

@@ -17,14 +17,13 @@ export class EntityService {
 
   constructor(
     //private router: Router,
-    public repositoryService: ArrayService
-  ) {}
+    public repositoryService: RestService //Set RestService OR ArrayService for RestFull API
+   ) {}
 
   getAll(entityName: string): Observable<any[]> {
     //console.log("service/getAll:", entityName)
     return this.repositoryService.getAll(entityName)
           .pipe(
-            //tap(data => this.db[entityName]=[...data["_emmbedded"][entityName]])
             tap(data => this.db[entityName]=[...data])
             ,map(data => data.map(entity => {
                // entity.usuario=entity.usuario.toUpperCase();
@@ -87,14 +86,14 @@ export class EntityService {
       .subscribe();
   }
   // End Observable
-*/
+
   errorHandler(error: any): void {
     console.log("Error=", error);
-    /*
+    //
     if (error.indexOf("Error Code: 401") >= 0) {
       console.log("not Found")
     }
-    */
+    //
   }
- //
+ */
 }

@@ -30,7 +30,7 @@ export class ArrayService implements Irepository {
     if (entity.id) {
       let idx = this.db[entityName].findIndex(item => item.id === entity.id);
       if (idx === -1) {
-        throwError(() => new Error("Registro no encontrado"));
+        throwError(() => new Error("Registro inexistente"));
       } else {
         this.db[entityName][idx] = item;
       }
@@ -48,7 +48,7 @@ export class ArrayService implements Irepository {
       this.db[entityName].splice(idx, 1)
     } else {
       console.log("Registro no encontrado", id, idx)      
-      return throwError(() => new Error("Registro no encontrado"));
+      return throwError(() => new Error("Registro inexistente"));
     }
     return of(this.db[entityName][idx]);
   }  
