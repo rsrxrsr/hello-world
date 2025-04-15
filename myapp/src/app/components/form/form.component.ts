@@ -1,13 +1,10 @@
-import { Component, OnInit, Input, ContentChild, inject} from '@angular/core';
+import { Component, OnInit, AfterViewInit, AfterViewChecked, Input, ContentChild, inject} from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { CommonModule, Location} from '@angular/common';
-import { FormsModule, NgForm } from '@angular/forms';
+import { FormsModule, NgForm, NgModel, NgModelGroup } from '@angular/forms';
 
 import { ArrayService } from '../../services/array.service';
-//import { Irepository } from '../../Interface/Irepository'; // inyectar servicio
 import { EntityService} from '../../services/entity.service';
-import { Irepository } from '../../Interface/Irepository';
-//import { RestService } from '../../services/rest.service';
 
 @Component({
   selector: 'app-form',
@@ -16,12 +13,13 @@ import { Irepository } from '../../Interface/Irepository';
   standalone: true, 
   imports: [CommonModule, FormsModule]
 })
-export class FormComponent implements OnInit {
-  @ContentChild('entityForm') entityForm!: NgForm;  
+export class FormComponent implements OnInit, AfterViewChecked {   //OnInit {
+  @ContentChild('entityForm', {read: NgForm}) entityForm!: NgForm;
   @Input() entityName: any | undefined;
 
   entity:any={};
   isUpdate:Boolean=true;
+  isEdit:Boolean | undefined;
   status: string="Seleccione opción...";
   //public entityService : Irepository = inject(ArrayService);
   
@@ -32,7 +30,8 @@ export class FormComponent implements OnInit {
   ) {}
      
   ngOnInit(): void {    
-    this.entityName = (this.entityName) ? this.entityName : this.activatedRoute.snapshot.url[0].path;
+    this.entityName = (this.entityName)
+        ? this.entityName : this.activatedRoute.snapshot.url[0].path;
     console.log("formComponente", this.entityName)
     if (this.activatedRoute.snapshot.params["update"]==="create") {
       this.isUpdate=false
@@ -42,10 +41,34 @@ export class FormComponent implements OnInit {
       } else {
         this.entityService.entity[this.entityName] = {}
       }        
-    }
+    }    
     this.entity=this.entityService.entity[this.entityName]
   }
-  
+
+  ngAfterViewChecked() {
+    if (this.isEdit === undefined
+        && this.isUpdate
+        && this.entityForm
+        && this.entityForm.controls
+        && Object.keys(this.entityForm.controls).length > 0) {
+        console.log("disable", Object.keys(this.entityForm.controls).length);
+        this.isEdit=false
+        Object.keys(this.entityForm.controls).forEach(controlName => {
+        this.entityForm.controls[controlName].disable();
+        })
+      }
+    //console.log("AfterViewChecked ", this.entityName, " disable", this.isEdit)
+  }
+
+  edit() {
+    //console.log("disable", Object.keys(this.entityForm.controls).length);
+    this.isEdit=true
+    this.status="Edición de datos..."
+    Object.keys(this.entityForm.controls).forEach(controlName => {
+      this.entityForm.controls[controlName].enable();
+    })
+  }
+
   save() {
     //console.log("save", this.entityName, this.entity)
     this.entityService.save(this.entityName,this.entity).subscribe({

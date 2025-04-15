@@ -13,7 +13,7 @@ export class ArrayService implements Irepository {
 
   constructor() {}
 
-  getAll(entityName: string): Observable<any[]> {
+  read (entityName: string): Observable<any[]> {
     console.log("rest/getAll:", entityName)
     if (!this.db[entityName]) {
       this.db[entityName] = [];

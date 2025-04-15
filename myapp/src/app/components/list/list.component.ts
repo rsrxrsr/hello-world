@@ -35,7 +35,7 @@ export class ListComponent implements OnInit {
   }
 
   read() {   
-    this.entityService.getAll(this.entityName).subscribe({
+    this.entityService.read(this.entityName).subscribe({
       next: (data) => {
         //this.entityService.db[this.entityName]=[...data];
         this.status="Consulta lista..."
@@ -56,6 +56,7 @@ export class ListComponent implements OnInit {
     this.entityService.delete(this.entityName, entity).subscribe({
       next: (data) => {
         this.status="Baja efectuada..."
+        this.read(); //Recargar la lista
       },
       error: (error) => {
         this.status = error.message

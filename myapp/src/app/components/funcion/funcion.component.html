@@ -2,30 +2,73 @@
 <app-form #f entityName="funcions">
   <div formTpl>
 
-    <form id="idForm" #entityForm="ngForm">					
-      <label for="id">Id</label>
-      <input type="number"
+    <form id="idForm" #entityForm="ngForm" >
+      <div class="row">					
+        <label for="id">Id</label>
+        <input type="number"
           id="id"  name="id" [(ngModel)]="entity.id"
+          #inId="ngModel" required 
           placeholder="..." />
-      <label for="funcion">Funcion</label>
-      <input type="text"
-          id="funcion" name="funcion" [(ngModel)]="entity.funcion"
-          required min="2"
-          placeholder="..." />
-        <!-- @if (entityForm.controls['funcion'].invalid && entityForm.controls['funcion'].touched) { -->
-          <div *ngIf="entityForm.controls['funcion']?.invalid && entityForm.controls['funcion']?.touched">
-            <small class="text-danger">El campo Funcion es obligatorio.</small>
-          </div>          
-      <label for="url">Url</label>
-      <input type="text"
+        <div *ngIf="inId.invalid && inId.touched">
+          <small class="invalid">Campo Id obligatorio</small>
+        </div>
+      </div>
+      <div class="row">
+        <label for="funcion">Función</label>
+        <input type="text"
+          id="funcion" name="funcion" [(ngModel)]="entity.funcion" 
+          #inFuncion="ngModel" required min="2"
+          placeholder="Teclee función..." />
+          <!-- @if (entityForm.controls['funcion'].invalid && entityForm.controls['funcion'].touched) { -->
+          <div *ngIf="inFuncion.invalid && entityForm.controls['funcion']?.touched">
+            <small class="invalid">Campo Función obligatorio</small>
+          </div>
+      </div>
+      <div class="row">
+        <label for="descripcion">Descripción</label>
+        <textarea
+          id="descripcion"  name="descripcion" [(ngModel)]="entity.descripcion"
+          #inDescripcion="ngModel" required></textarea>
+        <div *ngIf="inDescripcion.invalid && inDescripcion.touched">
+          <small class="invalid">Campo Descripción obligatorio</small>
+        </div>
+      </div>
+      <div class="row">    
+        <label for="tipo">Tipo</label>
+        <input type="text"
+          id="tipo"  name="tipo" [(ngModel)]="entity.tipo"
+          #inTipo="ngModel" required
+          placeholder="..." />              
+          <div *ngIf="inTipo.invalid && inTipo.touched">
+            <small class="invalid">Campo Tipo obligatorio</small>
+          </div>
+        </div>
+      <div class="row">    
+        <label for="url">Url</label>
+        <input type="url"
           id="url"  name="url" [(ngModel)]="entity.url"
-          required
+          #inUrl="ngModel" required
           placeholder="..." />
-      <label for="metodo">metodo</label>
-      <input type="text"
+        <div *ngIf="inUrl.invalid && inUrl.touched">
+            <small class="invalid">Campo Url obligatorio</small>
+        </div>
+      </div>
+      <div class="row">
+        <label for="metodo">Método</label>
+        <select
           id="metodo"  name="metodo" [(ngModel)]="entity.metodo"
-          required
-          placeholder="..." />
+          #inMetodo="ngModel" required
+          placeholder="Seleccione..." >
+          <option value=""></option>
+          <option value="GET">GET</option>
+          <option value="POST">POST</option>    
+          <option value="PUT">PUT</option>
+          <option value="DELETE">DELETE</option>
+        </select>
+        <div *ngIf="inMetodo.invalid && inMetodo.touched">
+          <small class="invalid">Campo método obligatorio</small>
+        </div>
+      </div> 
     </form>      
 
   </div>    

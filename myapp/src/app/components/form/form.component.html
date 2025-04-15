@@ -1,4 +1,4 @@
-<div>
+<div class="container">
 	<ng-container *ngTemplateOutlet="headerTpl"></ng-container>
   <ng-content select="[formTpl]"></ng-content>
   <ng-container *ngTemplateOutlet="footerTpl"></ng-container>
@@ -9,10 +9,13 @@
 </ng-template>
   
 <ng-template #footerTpl >
-  <div>
-    <button (click)="save()"   [disabled]="entityForm.invalid">Guardar</button>
-    <button (click)="delete()" [disabled]="entityForm.invalid" *ngIf="isUpdate">Borrar</button>
+  <div class="row">
     <button (click)="back()">Cerrar</button>
+    <button (click)="delete()" [disabled]="entityForm.invalid" *ngIf="isUpdate">Borrar</button>
+    <button (click)="edit()" *ngIf="isUpdate && !isEdit">Edit</button>
+    <button (click)="save()" *ngIf="!isUpdate || isEdit" [disabled]="entityForm.invalid">Guardar</button>
   </div>
-  <p> {{ status }} </p>
+  <p [ngClass]="status.startsWith('Error: ')  ? 'status alert' : 'status'">
+     {{ status }}
+  </p>
 </ng-template>

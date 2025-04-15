@@ -1,1 +1,12 @@
-/* You can add global styles to this file, and also import other style files */
+.status {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    padding: 10px;
+    border-radius: 5px;
+    color: blue;
+  }
+
+  .alert {
+    color: white;
+    background-color: coral;
+  }/* You can add global styles to this file, and also import other style files */

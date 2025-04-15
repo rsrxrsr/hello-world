@@ -20,7 +20,7 @@ export class EntityService {
     public repositoryService: RestService //Set RestService OR ArrayService for RestFull API
    ) {}
 
-  getAll(entityName: string): Observable<any[]> {
+  read(entityName: string): Observable<any[]> {
     //console.log("service/getAll:", entityName)
     return this.repositoryService.getAll(entityName)
           .pipe(

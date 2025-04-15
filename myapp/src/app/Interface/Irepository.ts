@@ -6,7 +6,7 @@ export interface Irepository {
     entity: any;
     status: string;
 
-    getAll(entityName: string): Observable<any[]>;
+    read(entityName: string): Observable<any[]>;
     save(entityName: string, entity: any): Observable<any[]>; 
     delete(entityName: string, entity: any): Observable<any[]>; 
 }

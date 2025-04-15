@@ -15,7 +15,7 @@
 
 <ng-template #footerTpl>
   <!-- @if (msg) { -->
-    <p class="alert alert-danger">
-        {{ status }}
-    </p>
+  <p [ngClass]="status.startsWith('Error: ')  ? 'status alert' : 'status'">
+    {{ status }}
+ </p>
 </ng-template>

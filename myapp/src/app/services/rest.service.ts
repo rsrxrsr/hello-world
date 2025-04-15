@@ -110,16 +110,16 @@ export class RestService {
     // Get server-side error
       switch (error.status) {
         case 404:
-          errorMessage = "Registro Inexistente";
+          errorMessage = "Registro no encontrado";
           break;
         case 409:
-          errorMessage = "Registro Duplicado";
+          errorMessage = "Registro en conflicto";
           break
         default:
-          errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+          errorMessage = `Code=${error.status}\nMessage: ${error.message}`;
     }    
     console.log("RestService", errorMessage);
-    error.message = errorMessage;
+    error.message = "Error: " + errorMessage;
     return throwError(() => (error));
   }
 
