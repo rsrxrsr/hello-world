@@ -32,8 +32,7 @@
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.js",
-              "node_modules/datatables.net/js/dataTables.js",
-              "node_modules/datatables.net-dt/js/dataTables.dataTables.js"
+              "node_modules/datatables.net/js/dataTables.js"
             ]
           },
           "configurations": {
@@ -83,20 +82,17 @@
               "zone.js/testing"
             ],
             "tsConfig": "tsconfig.spec.json",
-            "assets": [
-              {
-                "glob": "**/*",
-                "input": "public"
-              }
-            ],
+            "assets": [{
+              "glob": "**/*",
+              "input": "public"
+            }],
             "styles": [
               "src/styles.css",
               "node_modules/datatables.net-dt/css/dataTables.dataTables.css"
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.js",
-              "node_modules/datatables.net/js/dataTables.js",
-              "node_modules/datatables.net-dt/js/dataTables.dataTables.js"
+              "node_modules/datatables.net/js/dataTables.js"
             ]          }
         }
       }

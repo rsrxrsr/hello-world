@@ -1,7 +1,7 @@
-import { Component, OnInit, AfterViewInit, AfterViewChecked, Input, ContentChild, inject} from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ContentChild, inject} from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { CommonModule, Location} from '@angular/common';
-import { FormsModule, NgForm, NgModel, NgModelGroup } from '@angular/forms';
+import { FormsModule, NgForm, NgModel } from '@angular/forms';
 
 import { ArrayService } from '../../services/array.service';
 import { EntityService} from '../../services/entity.service';
@@ -13,13 +13,24 @@ import { EntityService} from '../../services/entity.service';
   standalone: true, 
   imports: [CommonModule, FormsModule]
 })
-export class FormComponent implements OnInit, AfterViewChecked {   //OnInit {
+export class FormComponent implements OnInit { //, AfterViewChecked {   //OnInit {
   @ContentChild('entityForm', {read: NgForm}) entityForm!: NgForm;
   @Input() entityName: any | undefined;
+  @Input() name: string="FormComponent";
+
+  @Output() editChange = new EventEmitter<Boolean>();
+  onEditChange(noEdit: Boolean) {
+    //console.log(this.name, "onEditChange", noEdit)
+    this.editChange.emit(noEdit);
+  }
+  setEdit(noEdit: Boolean) {
+    //console.log(this.name, "setEdit", this.noEdit)
+    this.noEdit=noEdit;
+  }  
 
   entity:any={};
   isUpdate:Boolean=true;
-  isEdit:Boolean | undefined;
+  noEdit:Boolean = true;
   status: string="Seleccione opción...";
   //public entityService : Irepository = inject(ArrayService);
   
@@ -32,9 +43,12 @@ export class FormComponent implements OnInit, AfterViewChecked {   //OnInit {
   ngOnInit(): void {    
     this.entityName = (this.entityName)
         ? this.entityName : this.activatedRoute.snapshot.url[0].path;
-    console.log("formComponente", this.entityName)
+    console.log("formComponente", this.name, this.entityName)
     if (this.activatedRoute.snapshot.params["update"]==="create") {
-      this.isUpdate=false
+      this.isUpdate=false;
+      this.noEdit=false;
+      this.onEditChange(this.noEdit);
+      this.status="Alta de datos...";
       if (this.entityService.entity[this.entityName]) {
         let entity= this.entityService.entity[this.entityName]
         Object.keys(entity).forEach((key) => {delete entity[key]})  
@@ -45,28 +59,10 @@ export class FormComponent implements OnInit, AfterViewChecked {   //OnInit {
     this.entity=this.entityService.entity[this.entityName]
   }
 
-  ngAfterViewChecked() {
-    if (this.isEdit === undefined
-        && this.isUpdate
-        && this.entityForm
-        && this.entityForm.controls
-        && Object.keys(this.entityForm.controls).length > 0) {
-        console.log("disable", Object.keys(this.entityForm.controls).length);
-        this.isEdit=false
-        Object.keys(this.entityForm.controls).forEach(controlName => {
-        this.entityForm.controls[controlName].disable();
-        })
-      }
-    //console.log("AfterViewChecked ", this.entityName, " disable", this.isEdit)
-  }
-
   edit() {
-    //console.log("disable", Object.keys(this.entityForm.controls).length);
-    this.isEdit=true
-    this.status="Edición de datos..."
-    Object.keys(this.entityForm.controls).forEach(controlName => {
-      this.entityForm.controls[controlName].enable();
-    })
+    this.noEdit=false;
+    this.onEditChange(this.noEdit);
+    this.status=this.name + " Edición de datos..."
   }
 
   save() {
@@ -108,5 +104,22 @@ export class FormComponent implements OnInit, AfterViewChecked {   //OnInit {
   this.entityForm?.valid //valida forma
   this.entityForm?.controls["campo"]?.valid //valida campo
 */ 
+
+/*
+  ngAfterViewChecked() {
+    if (this.isEdit === undefined
+        && this.isUpdate
+        && this.entityForm
+        && this.entityForm.controls
+        && Object.keys(this.entityForm.controls).length > 0) {
+        console.log("disable", Object.keys(this.entityForm.controls).length);
+        this.isEdit=false
+        Object.keys(this.entityForm.controls).forEach(controlName => {
+        this.entityForm.controls[controlName].disable();
+        })
+      }
+    //console.log("AfterViewChecked ", this.entityName, " disable", this.isEdit)
+  }
+*/
 
 }

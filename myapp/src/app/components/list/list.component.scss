@@ -1,3 +1,37 @@
+#miTabla.display tbody tr:nth-child(odd) {
+  background-color: #f00c0c; /* Estilo zebra */
+}
+
+#miTabla.display tbody tr:hover {
+  background-color: #311175; /* Resaltar selección (puedes manejarlo con clases de DataTables también) */
+}
+
+#miTabla.display thead th fa-icones {
+  display: none;
+}
+#miTabla.display thead th:hover fa-icon.sort {
+  display: inline-block;
+}
+
+
+.search {
+  width: 130px;
+  box-sizing: border-box;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  background-color: white;
+  background-image: none; // url('/src/assets/lupa.png'); /* Cambia la ruta a tu icono de búsqueda */
+  background-position: 10px 10px; 
+  background-repeat: no-repeat;
+  padding: 12px 20px 12px 40px;
+  transition: width 0.4s ease-in-out;
+}
+
+input[type=text]:focus.search {
+  width: 100%;
+}
+
 .btn {
     display: inline-block;
     padding: 4px 8px;

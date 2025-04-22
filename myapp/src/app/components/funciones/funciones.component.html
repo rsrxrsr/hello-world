@@ -3,34 +3,52 @@
 <div lisTpl>
     {{entityName}} isRead={{isRead}}
 
+    <div>
+        <label for="filtro">Filtrar:</label>
+        <input type="text" id="filtro" class="search"
+         [(ngModel)]="filtro" (keyup)="filtrarDatos()"
+         placeholder="Buscar...">
+    </div>
+
     <table id="miTabla" class="display stripe" style="width:100%">
-        <thead>
+      <thead>
         <tr>
-            <th><input type="checkbox" id="seleccionarTodo"></th>
-            <th>#</th>
-            <th>Funcion</th>
-            <th>Url</th>
-            <th>Metodo</th>
-            <td></td>
+            <th><input type="checkbox" id="seleccionarTodo" (change)="swCheckAll($event)"></th>   
+            <th>
+                #<fa-icon [icon]="getIcon('id')" (click)="sort('id')"/></th>
+            <th>
+                Funcion<fa-icon [icon]="getIcon('funcion')" (click)="sort('funcion')"/></th>
+            <th>
+                Url<fa-icon [icon]="getIcon('url')" (click)="sort('url')"/></th>
+            <th>
+                Metodo<fa-icon [icon]="getIcon('metodo')" (click)="sort('metodo')"/></th>
+            <th>Acciones</th>
         </tr>
-        </thead>
-        <tbody>
+      </thead>
+      <tbody>
     <!-- 
         @for (entity of entityService.db[entityName]; track entity.id) {
         -->
-        <tr *ngFor="let entity of entityService.db[entityName]">
-            <th><input type="checkbox" class="checkFila"></th>
+        <tr *ngFor="let entity of datosFiltrados">
+            <th><input type="checkbox" class="checkFila"
+                [(ngModel)]="entity.checked">
+            </th>
             <td>{{entity.id}}</td>
             <td>{{entity.funcion}}</td>
             <td>{{entity.url}}</td>
             <td>{{entity.metodo}}</td>
             <td>
-                <button type="button" (click)="selectRow(entity)">Update</button>
-                <button type="button" (click)="delete(entity)">Delete</button>
+                <button type="button" (click)="selectRow(entity)">
+                    <fa-icon [icon]="faPenToSquare"/>
+                    Editar</button>
+                <button type="button" (click)="delete(entity)">
+                    <fa-icon [icon]="faTrashCan"/>
+                    Borrar</button>
             </td>
         </tr>
     </tbody>
 </table>
-
+    <button (click)="procesarDatos(fxMayusculas)">Seleccion a Mayusculas</button>
+    <button (click)="procesarDatos(fxMinusculas)">Seleccion a Minusculas</button>
 </div>
 </app-list>

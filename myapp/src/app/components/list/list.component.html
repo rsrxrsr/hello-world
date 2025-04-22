@@ -8,9 +8,10 @@
   <h3> Lista {{entityName}}</h3> 
   <a class="btn btn-primary"
     routerLink="{{`/${entityName}/create`}}"
-  >    <!-- (click)="handleLinkClick($event)" -->
-    Create
-  </a>        
+    > <!-- (click)="handleLinkClick($event)" -->
+    <fa-icon [icon]="faPlus"/>
+    Agregar
+  </a>
 </ng-template>
 
 <ng-template #footerTpl>
