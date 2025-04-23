@@ -18,7 +18,8 @@ export class RestService {
   //private apiServer = environment.apiServer;
   //private apiServer = 'https://effective-space-chainsaw-j49r5grgqvqcpp47-8080.app.github.dev'; // Ejemplo de API
   private apiServer = 'http://localhost:8080'; // Ejemplo de API
-
+  
+  data: any = {table: [], page: {}};  
 
   constructor(private httpClient: HttpClient,
    	//private router: Router
@@ -58,6 +59,24 @@ export class RestService {
             return entity}))
            ,shareReplay(1)
            , catchError(this.errorHandler))
+  }
+
+  readPage(entityName, page:number=0, size:number=10): Observable<any[]> {
+    let url = this.getUrl(entityName) + "?page=" + page + "&size=" + size;
+    console.log("Rest/readPage ", url);
+    return this.httpClient.get<any[]>(url) //, this.getHttpOptions())
+      .pipe(
+        map(data => {
+          this.data.content=data["_embedded"][entityName].map(entity => {
+            entity.id=entity["_links"]["self"].href.split("/").pop()
+            return entity
+          });
+          this.data.page=data["page"];
+          return this.data;
+        })  
+        , shareReplay(1)
+        , catchError(this.errorHandler)
+      )
   }
 
   save(entityName, entity): Observable<any> {

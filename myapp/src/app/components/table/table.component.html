@@ -28,3 +28,27 @@
   <button (click)="seleccionarFilas()">Filas Seleccionadas</button>
   <button (click)="seleccionarDatos()">Datos Seleccionados</button>
   <p> {{datos[0].nombre + " checked=" + datos[0].checked}} </p>
+
+
+<h2>Pagination Size</h2>
+
+<p>Change the font-size property to make the pagination smaller or bigger.</p>
+
+<div class="pagination">
+  <a class="active">
+    <input type="number" value="5" min="1" max="10" step="1" size="2" class="page-number">
+  </a>
+  <a>
+    1 |❮</a>
+  <a>❮</a>
+  <a  class="active">
+    <input type="number" value="100" min="1" max="10" step="1" size="2" class="page-number">
+  </a>
+  <a>&nbsp;❯&nbsp;</a>
+  <a>
+    ❯| 300
+  </a>
+</div>
+
+
+ 

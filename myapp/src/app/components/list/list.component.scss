@@ -1,18 +1,35 @@
+#miTabla.display {
+border: silver 1px solid; 
+}
+
+#miTabla.display thead {
+  color: lightcyan;
+  background-color: navy;
+}
+
 #miTabla.display tbody tr:nth-child(odd) {
-  background-color: #f00c0c; /* Estilo zebra */
+  background-color: #868282; /* Estilo zebra */
 }
 
 #miTabla.display tbody tr:hover {
   background-color: #311175; /* Resaltar selección (puedes manejarlo con clases de DataTables también) */
 }
 
-#miTabla.display thead th fa-icones {
-  display: none;
+#miTabla.display thead th.acciones {
+  width: 160px;
 }
-#miTabla.display thead th:hover fa-icon.sort {
-  display: inline-block;
+#miTabla.display thead th label {
+  margin-left: 38px; 
+  margin-right: 10px; 
 }
-
+#miTabla.display thead th input[type="checkbox"] {
+  width: 20px;
+  margin-left: 26px; 
+  margin-right: 5px; 
+}
+#miTabla.display tbody td:has(input[type="checkbox"]:checked) {
+  background-color: #597511;
+}
 
 .search {
   width: 130px;
@@ -46,3 +63,73 @@ input[type=text]:focus.search {
   .btn:hover {
     background-color: #0056b3;
   }
+
+.select {
+  float: left;
+  margin-top: 10px;
+}
+  
+.pagination {
+  display: inline-block;
+  text-align: center;
+  margin: 10px;
+  padding: 0px 0px 8px 0px;
+  //padding-top: 15px;
+  //padding-bottom: 15px;
+  //border: 1px solid #ddd;
+  //background-color: #d4d7dc;
+}
+
+.pagination a {
+  color: black;
+  float: left;
+  padding: 4px 8px;
+  text-decoration: none;
+  transition: background-color .3s;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin: 0 2px;
+  font-size: 12px;
+  width: 60px;
+  cursor:pointer;
+}
+
+.pagination a.active {
+  border: 1px solid #4CAF50;
+  //color: white;
+  //background-color: #4CAF50;
+  //border-radius: 5px;
+}
+.pagination a input[type="number"] {
+  width: min-content;
+  text-align: center;
+  font-size: 12px;
+  border: none;
+  cursor:pointer;
+  //color: white;
+  //background-color: #4CAF50;
+  //border: 1px solid #4CAF50;
+  //border-radius: 5px;
+  //margin: 0px;
+}
+
+.pagination a input[type="number"]:focus {
+  outline: none;
+  background-color: white;
+}
+
+.pagination a:hover:not(.active) {background-color: #ddd;}
+
+/*
+.pagination a:first-child {
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+
+.pagination a:last-child {
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+*/
+
+

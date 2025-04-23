@@ -46,18 +46,20 @@ filtro: string = '';
     this.entityName = (this.entityName) ? this.entityName : this.activatedRoute.snapshot.url[0].path;
     console.log("listComponente", this.entityName, "=", this.isRead)
     //this.entityService.db = {"usuario": [{"id": 1, "usuario":"un usuario x", "estatus": 1, "password": "un password y"}]}; //test
+    this.entityService.pg[this.entityName] = {"totalElements": 0, "totalPages": 0, "size": 0, "number": 0}; //test
     this.status =  "Consulta..."
     if (this.isRead==="false") { //&& !this.entityService.db[this.entityName]) {
-      this.read();
+      this.readPage();
     }  
   }
 
-  read() {   
-    this.entityService.read(this.entityName).subscribe({
+  readPage(page: number=0, size: number=10) {   
+    this.entityService.readPage(this.entityName, page, size).subscribe({
       next: (data) => {
-        this.datos=[... data];
-        this.datosFiltrados = [... data];        
+        this.datos=[... data["content"]]; //this.entityService.db[this.entityName]=[... data["content"]];
+        this.datosFiltrados = [... data["content"]];        
         this.status="Consulta lista..."
+        this.orden={}
       },
       error: (error) => {
         //console.log("ListComponent", `Error Code: ${error.status}\nMessage: ${error.message}`);
@@ -75,7 +77,7 @@ filtro: string = '';
     this.entityService.delete(this.entityName, entity).subscribe({
       next: (data) => {
         this.status="Baja efectuada..."
-        this.read(); //Recargar la lista
+        this.readPage(); //Recargar la lista
       },
       error: (error) => {
         this.status = error.message
@@ -144,9 +146,25 @@ filtro: string = '';
       }})
   }
 
+  checkAll: boolean = false;
+
+  setCheckAll() {
+    this.datosSeleccionados = this.datosFiltrados.filter(fila => fila.checked);
+    this.checkAll = this.datosSeleccionados.length === this.datosFiltrados.length;     
+    //console.log('swCheck:', this.datosFiltrados);
+  }
+
   swCheckAll($event: any) {
     this.datosFiltrados.map(fila => fila.checked = $event.target.checked); 
     //console.log('swCheck:', this.datosFiltrados);
   }
 
+  onKeyDown(event: KeyboardEvent, page) {
+    if (event.key === 'Enter') {
+      console.log("Tecla Enter presionada");
+      this.readPage(page, this.entityService.pg[this.entityName].size)
+      // Aquí tu lógica
+    }
+  }
+  
 } //End Component

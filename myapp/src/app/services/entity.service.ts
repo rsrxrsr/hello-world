@@ -12,7 +12,8 @@ import { ArrayService } from './array.service';
 })
 export class EntityService {
 
-  db: any = {};  
+  db: any = {};
+  pg: any = {};  
   entity: any = {};
 
   constructor(
@@ -35,6 +36,19 @@ export class EntityService {
                 return throwError(() => (error))
               })
             */        
+            ,shareReplay(1)
+          );
+  }
+
+  readPage(entityName: string, page:number=0, size:number=10): Observable<any[]> {
+    //console.log("service/getAll:", entityName)
+    return this.repositoryService.readPage(entityName, page, size)
+          .pipe(
+            tap(data => {this.db[entityName]=[...data["content"]]
+                         this.pg[entityName]=data["page"]
+                         this.pg[entityName]["number"]+=1; //page starts at 0
+                        console.log("readPage", this.pg[entityName])})
+            ,map(data => data)
             ,shareReplay(1)
           );
   }

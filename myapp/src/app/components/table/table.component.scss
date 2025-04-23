@@ -38,3 +38,61 @@ input[type=text]:focus.search {
     width: 100%;
   }
 
+.pagination {
+    display: inline-block;
+    text-align: center;
+    //width: 100%;
+  }
+  
+.pagination a {
+    color: black;
+    float: left;
+    padding: 4px 8px;
+    text-decoration: none;
+    transition: background-color .3s;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin: 0 2px;
+    font-size: 12px;
+    width: 60px;
+    cursor:pointer;
+  }
+  
+.pagination a.active {
+    color: white;
+    border: 1px solid #4CAF50;
+    //background-color: #4CAF50;
+    //border-radius: 5px;
+  }
+.pagination a input[type="number"] {
+    width: min-content;
+    text-align: center;
+    font-size: 12px;
+    border: none;
+    cursor:pointer;
+    //color: white;
+    //background-color: #4CAF50;
+    //border: 1px solid #4CAF50;
+    //border-radius: 5px;
+    //margin: 0px;
+  }
+
+  .pagination a input[type="number"]:focus {
+    outline: none;
+    background-color: white;
+  }
+
+.pagination a:hover:not(.active) {background-color: #ddd;}
+  
+/*
+.pagination a:first-child {
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+  }
+  
+.pagination a:last-child {
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+  }
+*/
+
