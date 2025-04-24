@@ -1,6 +1,7 @@
 <div #lista >
 	<ng-container *ngTemplateOutlet="headerTpl"></ng-container>				
   <ng-content select="[lisTpl]" ></ng-content>
+  <ng-container *ngTemplateOutlet="pagerTpl"></ng-container>
   <ng-container *ngTemplateOutlet="footerTpl"></ng-container>
 </div>
 
@@ -12,8 +13,59 @@
     <fa-icon [icon]="faPlus"/>
     Agregar
   </a>
+  <span>
+    <label for="filtro">Filtrar:</label>
+    <input type="text" id="filtro" class="search"
+     [(ngModel)]="filtro" (keyup)="filtrarDatos()"
+     placeholder="Buscar...">
+  </span>
 </ng-template>
 
+<ng-template #pagerTpl>
+  <div class="pagination">
+    <a name="records" class="active">
+      {{entityService.pg[entityName].totalElements}} registros
+    </a>
+    <a name="firstPage"
+      (click)="readPage(0, entityService.pg[entityName].size)"
+      *ngIf="entityService.pg[entityName].number != 1">
+      <span>pág. 1 |❮</span>
+    </a>
+    <a name="prevPage" 
+        (click)="readPage(entityService.pg[entityName].number-2, entityService.pg[entityName].size)"
+        *ngIf="entityService.pg[entityName].number > 1">
+            <span>prévia&nbsp;❮</span>
+    </a>
+    <a name="goPage" class="active" 
+        (click)="readPage(entityService.pg[entityName].number-1, entityService.pg[entityName].size)"
+        title="página actual">
+        <input type="number"
+            [(ngModel)]="entityService.pg[entityName].number"
+            (keydown)="onKeyDown($event, entityService.pg[entityName].number-1)"
+            min="1" max="{{entityService.pg[entityName].totalPages}}" maxlength="3"step="1" size="2">
+    </a>
+    <a name="nextPage"
+        (click)="readPage(entityService.pg[entityName].number, entityService.pg[entityName].size)"
+        *ngIf="entityService.pg[entityName].number < entityService.pg[entityName].totalPages"
+        >
+        <span> ❯ siguiente</span>
+    </a>
+    <a name="lastPage"
+        (click)="readPage(entityService.pg[entityName].totalPages-1, entityService.pg[entityName].size)"
+        *ngIf="entityService.pg[entityName].number < entityService.pg[entityName].totalPages">
+        <span>❯|  última {{entityService.pg[entityName].totalPages}}</span>
+    </a>
+    <a name="sizePage" class="active"
+        (click)="readPage(0, entityService.pg[entityName].size)"
+        title="registros por página">
+        <input type="number"
+            [(ngModel)]="entityService.pg[entityName].size"
+            (keydown)="onKeyDown($event, 0)"
+            min="1" max="100" maxlength="3" step="1" size="2">
+    </a>
+  </div>
+</ng-template>
+  
 <ng-template #footerTpl>
   <!-- @if (msg) { -->
   <p [ngClass]="status.startsWith('Error: ')  ? 'status alert' : 'status'">

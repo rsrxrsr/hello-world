@@ -1,14 +1,6 @@
 <app-list [entityName]="entityName" isRead="true" [status]="status">
       
 <div lisTpl>
-    {{entityName}} isRead={{isRead}}
-
-    <div>
-        <label for="filtro">Filtrar:</label>
-        <input type="text" id="filtro" class="search"
-         [(ngModel)]="filtro" (keyup)="filtrarDatos()"
-         placeholder="Buscar...">
-    </div>
 
     <table id="miTabla" class="display stripe" style="width:100%">
       <thead>
@@ -32,7 +24,7 @@
     <!-- 
         @for (entity of entityService.db[entityName]; track entity.id) {
         -->
-        <tr *ngFor="let entity of datosFiltrados">
+        <tr *ngFor="let entity of entityService.tb[entityName]">
             <td>{{entity.id}}</td>
             <td>{{entity.funcion}}</td>
             <td>{{entity.url}}</td>
@@ -52,48 +44,5 @@
 </table>
     <button class="select" (click)="procesarDatos(fxMayusculas)">Selección a Mayúsculas</button>
     <button class="select" (click)="procesarDatos(fxMinusculas)">Selección a Mínusculas</button>
- 
-    <div class="pagination">
-        <a name="records" class="active">
-          {{entityService.pg[entityName].totalElements}} registros
-        </a>
-        <a name="firstPage"
-          (click)="readPage(0, entityService.pg[entityName].size)"
-          *ngIf="entityService.pg[entityName].number != 1">
-          <span>primera 1 |❮</span>
-        </a>
-        <a name="prevPage" 
-            (click)="readPage(entityService.pg[entityName].number-2, entityService.pg[entityName].size)"
-            *ngIf="entityService.pg[entityName].number > 1">
-                <span>prévia&nbsp;❮</span>
-        </a>
-        <a name="goPage" class="active" 
-            (click)="readPage(entityService.pg[entityName].number-1, entityService.pg[entityName].size)"
-            title="página actual">
-            <input type="number"
-                [(ngModel)]="entityService.pg[entityName].number"
-                (keydown)="onKeyDown($event, entityService.pg[entityName].number-1)"
-                min="1" max="{{entityService.pg[entityName].totalPages}}" step="1" size="2">
-        </a>
-        <a name="nextPage"
-            (click)="readPage(entityService.pg[entityName].number, entityService.pg[entityName].size)"
-            *ngIf="entityService.pg[entityName].number < entityService.pg[entityName].totalPages"
-            >
-            <span> ❯ siguiente</span>
-        </a>
-        <a name="lastPage"
-            (click)="readPage(entityService.pg[entityName].totalPages-1, entityService.pg[entityName].size)"
-            *ngIf="entityService.pg[entityName].number < entityService.pg[entityName].totalPages">
-            <span>❯| {{entityService.pg[entityName].totalPages}} última</span>
-        </a>
-        <a name="sizePage" class="active"
-            (click)="readPage(0, entityService.pg[entityName].size)"
-            title="registros por página">
-            <input type="number"
-                [(ngModel)]="entityService.pg[entityName].size"
-                (keydown)="onKeyDown($event, 0)"
-                min="1" max="100" step="1" size="2">
-          </a>
-        </div>
 </div>
 </app-list>

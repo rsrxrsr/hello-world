@@ -31,7 +31,6 @@ faSortUp = faSortUp
 faSortDown = faSortDown
 
 datos: any[] = [];
-datosFiltrados: any[] = [];
 datosSeleccionados: any[] = []; // Array para almacenar los datos de las filas seleccionadas
 filtro: string = '';
 
@@ -56,9 +55,10 @@ filtro: string = '';
   readPage(page: number=0, size: number=10) {   
     this.entityService.readPage(this.entityName, page, size).subscribe({
       next: (data) => {
-        this.datos=[... data["content"]]; //this.entityService.db[this.entityName]=[... data["content"]];
-        this.datosFiltrados = [... data["content"]];        
+        this.datos=this.entityService.db[this.entityName];
+        this.entityService.tb[this.entityName] = this.datos;        
         this.status="Consulta lista..."
+        this.checkAll=false
         this.orden={}
       },
       error: (error) => {
@@ -104,8 +104,8 @@ filtro: string = '';
     this.orden = {}; 
     this.orden[column] = orden;      
     console.log("Sort", column, orden);
-    if (this.datosFiltrados.length <= 0) return;
-    this.datosFiltrados.sort((a, b) => {
+    if (this.entityService.tb[this.entityName].length <= 0) return;
+    this.entityService.tb[this.entityName].sort((a, b) => {
       let x=a[column]
       let y=b[column]
       if (Number(x) && Number(y)) {
@@ -123,10 +123,10 @@ filtro: string = '';
   filtrarDatos() {
     if (!this.filtro) {
       console.log("Datos", this.datos, this.datos.length);  
-      this.datosFiltrados = [...this.datos];
+      this.entityService.tb[this.entityName] = this.entityService.db[this.entityName];
     } else { 
       const filtroMinuscula = this.filtro.toLowerCase();
-      this.datosFiltrados = this.datos.filter(item => {
+      this.entityService.tb[this.entityName] = this.entityService.tb[this.entityName].filter(item => {
         return Object.values(item).some(valor => {
           if (typeof valor === 'string') {
             return valor.toLowerCase().includes(filtroMinuscula)
@@ -138,7 +138,7 @@ filtro: string = '';
   }
     
   procesarDatos(exfuncion: any) {
-    this.datosSeleccionados = this.datosFiltrados.filter(fila => fila.checked);
+    this.datosSeleccionados = this.entityService.tb[this.entityName].filter(fila => fila.checked);
     console.log('Datos seleccionados:', this.datosSeleccionados);
     this.datosSeleccionados.forEach((fila) => {
       if (exfuncion) {
@@ -149,14 +149,14 @@ filtro: string = '';
   checkAll: boolean = false;
 
   setCheckAll() {
-    this.datosSeleccionados = this.datosFiltrados.filter(fila => fila.checked);
-    this.checkAll = this.datosSeleccionados.length === this.datosFiltrados.length;     
-    //console.log('swCheck:', this.datosFiltrados);
+    this.datosSeleccionados = this.entityService.tb[this.entityName].filter(fila => fila.checked);
+    this.checkAll = this.datosSeleccionados.length === this.entityService.tb[this.entityName].length;     
+    //console.log('swCheck:', this.entityService.tb[this.entityName]);
   }
 
   swCheckAll($event: any) {
-    this.datosFiltrados.map(fila => fila.checked = $event.target.checked); 
-    //console.log('swCheck:', this.datosFiltrados);
+    this.entityService.tb[this.entityName].map(fila => fila.checked = $event.target.checked); 
+    //console.log('swCheck:', this.entityService.tb[this.entityName]);
   }
 
   onKeyDown(event: KeyboardEvent, page) {

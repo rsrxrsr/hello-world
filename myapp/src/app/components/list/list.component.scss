@@ -7,12 +7,12 @@ border: silver 1px solid;
   background-color: navy;
 }
 
-#miTabla.display tbody tr:nth-child(odd) {
+#miTabla.display tbody tr:nth-child(even) {
   background-color: #868282; /* Estilo zebra */
 }
 
 #miTabla.display tbody tr:hover {
-  background-color: #311175; /* Resaltar selección (puedes manejarlo con clases de DataTables también) */
+  background-color: #249eb3; /* Resaltar selección (puedes manejarlo con clases de DataTables también) */
 }
 
 #miTabla.display thead th.acciones {
@@ -28,7 +28,7 @@ border: silver 1px solid;
   margin-right: 5px; 
 }
 #miTabla.display tbody td:has(input[type="checkbox"]:checked) {
-  background-color: #597511;
+  background-color:#007bff;
 }
 
 .search {
@@ -36,12 +36,12 @@ border: silver 1px solid;
   box-sizing: border-box;
   border: 2px solid #ccc;
   border-radius: 4px;
-  font-size: 16px;
+  font-size: 14px;
   background-color: white;
   background-image: none; // url('/src/assets/lupa.png'); /* Cambia la ruta a tu icono de búsqueda */
   background-position: 10px 10px; 
   background-repeat: no-repeat;
-  padding: 12px 20px 12px 40px;
+  padding: 10px 20px 10px 40px;
   transition: width 0.4s ease-in-out;
 }
 

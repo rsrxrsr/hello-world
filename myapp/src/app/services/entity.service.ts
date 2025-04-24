@@ -13,6 +13,7 @@ import { ArrayService } from './array.service';
 export class EntityService {
 
   db: any = {};
+  tb: any = {};
   pg: any = {};  
   entity: any = {};
 
@@ -45,6 +46,7 @@ export class EntityService {
     return this.repositoryService.readPage(entityName, page, size)
           .pipe(
             tap(data => {this.db[entityName]=[...data["content"]]
+                         this.tb[entityName]=[...data["content"]]
                          this.pg[entityName]=data["page"]
                          this.pg[entityName]["number"]+=1; //page starts at 0
                         console.log("readPage", this.pg[entityName])})
