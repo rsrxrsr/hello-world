@@ -6,18 +6,20 @@
 </div>
 
 <ng-template #headerTpl>
-  <h3> Lista {{entityName}}</h3> 
+  <h3> Lista {{name}}</h3> 
   <a class="btn btn-primary"
     routerLink="{{`/${entityName}/create`}}"
     > <!-- (click)="handleLinkClick($event)" -->
     <fa-icon [icon]="faPlus"/>
     Agregar
   </a>
-  <span>
-    <label for="filtro">Filtrar:</label>
+  <span class="searchContainer">
     <input type="text" id="filtro" class="search"
      [(ngModel)]="filtro" (keyup)="filtrarDatos()"
      placeholder="Buscar...">
+     <label for="filtro">
+      <fa-icon [icon]="faMagnifyingGlass"/>
+    </label>
   </span>
 </ng-template>
 

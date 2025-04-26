@@ -11,7 +11,7 @@
 <ng-template #footerTpl >
   <div class="row">
     <button (click)="back()">Cerrar</button>
-    <button (click)="delete()" [disabled]="entityForm.invalid" *ngIf="isUpdate">Borrar</button>
+    <button (click)="delete()" [disabled]="entityForm.invalid" *ngIf="isUpdate && entity.id">Borrar</button>
     <button (click)="edit()" *ngIf="noEdit">Edit</button>
     <button (click)="save()" *ngIf="!noEdit" [disabled]="entityForm.invalid">Guardar</button>
   </div>

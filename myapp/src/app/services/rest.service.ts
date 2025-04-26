@@ -83,7 +83,11 @@ export class RestService {
     console.log("Rest/save ", entityName, entity);
     let url = this.getUrl(entityName);
     return this.httpClient.post<any>(url, entity, this.getHttpOptions()) 
-          .pipe(catchError(this.errorHandler)) // *** JSON.stringify(entity) ***
+          .pipe(map(entity => {
+            entity.id=Number(entity["_links"]["self"].href.split("/").pop())
+            return entity
+          })
+          , catchError(this.errorHandler)) // *** JSON.stringify(entity) ***
   }
 
   delete(entityName, id) {

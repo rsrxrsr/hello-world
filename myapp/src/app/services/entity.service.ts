@@ -14,7 +14,8 @@ export class EntityService {
 
   db: any = {};
   tb: any = {};
-  pg: any = {};  
+  pg: any = {};
+  status: string = "Consulta...";  
   entity: any = {};
 
   constructor(

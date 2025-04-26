@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild} from '@angular/core';
+import { Component, OnInit, Input, ViewChild, Output, EventEmitter} from '@angular/core';
 import { ActivatedRoute, Router, RouterLink} from '@angular/router';
 import { CommonModule} from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -16,10 +16,20 @@ import { EntityService} from '../../services/entity.service';
   imports: [CommonModule, FormsModule, RouterLink, FontAwesomeModule]
 })
 export class ListComponent implements OnInit { 
- 
+  
+@Input() name: string | undefined; 
 @Input() entityName: any | undefined;
 @Input() isRead : string = "false";
 @Input() status: string="Consultando...";
+
+@Output() pageChange = new EventEmitter<Boolean>();  
+onPageChange(pageChange: Boolean) {
+    this.pageChange.emit(true);
+  }
+setPageChange(pageChange: Boolean) {
+    this.orden={}
+    this.checkAll=false;
+  }  
 
 faCoffee = faCoffee
 faMagnifyingGlass = faMagnifyingGlass
@@ -30,9 +40,12 @@ faSort = faSort
 faSortUp = faSortUp   
 faSortDown = faSortDown
 
-datos: any[] = [];
+//datos: any[] = [];
 datosSeleccionados: any[] = []; // Array para almacenar los datos de las filas seleccionadas
 filtro: string = '';
+
+checkAll: boolean = false;
+orden = {};
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -41,25 +54,24 @@ filtro: string = '';
   ) {}
 
   ngOnInit(): void {
-    //this.entityName = (this.entityName) ? this.entityName : this.activatedRoute.snapshot.params["entityName"] ; 
     this.entityName = (this.entityName) ? this.entityName : this.activatedRoute.snapshot.url[0].path;
-    console.log("listComponente", this.entityName, "=", this.isRead)
+    this.name = (this.name) ? this.name : this.entityName; 
+    console.log("listComponente:", this.name, "entityName", this.entityName, "isRead=", this.isRead)
     //this.entityService.db = {"usuario": [{"id": 1, "usuario":"un usuario x", "estatus": 1, "password": "un password y"}]}; //test
-    this.entityService.pg[this.entityName] = {"totalElements": 0, "totalPages": 0, "size": 0, "number": 0}; //test
+    this.entityService.pg[this.entityName] = (this.entityService.pg[this.entityName]) ? this.entityService.pg[this.entityName] : {"totalElements": 0, "totalPages": 0, "size": 10, "number": 0};
     this.status =  "Consulta..."
     if (this.isRead==="false") { //&& !this.entityService.db[this.entityName]) {
-      this.readPage();
+      this.readPage(this.entityService.pg[this.entityName].number-1, this.entityService.pg[this.entityName].size)
     }  
   }
 
   readPage(page: number=0, size: number=10) {   
     this.entityService.readPage(this.entityName, page, size).subscribe({
       next: (data) => {
-        this.datos=this.entityService.db[this.entityName];
-        this.entityService.tb[this.entityName] = this.datos;        
+        //this.datos=this.entityService.db[this.entityName];
+        this.filtrarDatos();        
         this.status="Consulta lista..."
-        this.checkAll=false
-        this.orden={}
+        this.onPageChange(true);
       },
       error: (error) => {
         //console.log("ListComponent", `Error Code: ${error.status}\nMessage: ${error.message}`);
@@ -77,7 +89,7 @@ filtro: string = '';
     this.entityService.delete(this.entityName, entity).subscribe({
       next: (data) => {
         this.status="Baja efectuada..."
-        this.readPage(); //Recargar la lista
+        this.readPage(this.entityService.pg[this.entityName].number-1, this.entityService.pg[this.entityName].size)
       },
       error: (error) => {
         this.status = error.message
@@ -89,8 +101,6 @@ filtro: string = '';
     this.entityService.entity[this.entityName]=entity;
     this.router.navigate([this.entityName, "update"]);    
   }
-
-  orden = {};
   
   getIcon(column: string) {
     switch (this.orden[column]) {
@@ -122,7 +132,7 @@ filtro: string = '';
 
   filtrarDatos() {
     if (!this.filtro) {
-      console.log("Datos", this.datos, this.datos.length);  
+      //console.log("Datos", this.datos, this.datos.length);  
       this.entityService.tb[this.entityName] = this.entityService.db[this.entityName];
     } else { 
       const filtroMinuscula = this.filtro.toLowerCase();
@@ -145,8 +155,6 @@ filtro: string = '';
         exfuncion(fila); // Llama a la función pasada como argumento
       }})
   }
-
-  checkAll: boolean = false;
 
   setCheckAll() {
     this.datosSeleccionados = this.entityService.tb[this.entityName].filter(fila => fila.checked);

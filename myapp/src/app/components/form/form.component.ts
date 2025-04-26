@@ -30,7 +30,7 @@ export class FormComponent implements OnInit { //, AfterViewChecked {   //OnInit
 
   entity:any={};
   isUpdate:Boolean=true;
-  noEdit:Boolean = true;
+  noEdit:Boolean = false;
   status: string="Seleccione opción...";
   //public entityService : Irepository = inject(ArrayService);
   
@@ -41,8 +41,8 @@ export class FormComponent implements OnInit { //, AfterViewChecked {   //OnInit
   ) {}
      
   ngOnInit(): void {    
-    this.entityName = (this.entityName)
-        ? this.entityName : this.activatedRoute.snapshot.url[0].path;
+    this.entityName = (this.entityName) ? this.entityName : this.activatedRoute.snapshot.url[0].path;
+    this.name = (this.name) ? this.name : this.entityName; 
     console.log("formComponente", this.name, this.entityName)
     if (this.activatedRoute.snapshot.params["update"]==="create") {
       this.isUpdate=false;
@@ -69,8 +69,9 @@ export class FormComponent implements OnInit { //, AfterViewChecked {   //OnInit
     //console.log("save", this.entityName, this.entity)
     this.entityService.save(this.entityName,this.entity).subscribe({
       next: (data) => {
-        this.entity = data
+        this.entity.id = data.id
         this.status="Registro efectuado..."
+        console.log("save", this.entityName, this.entity)
       },
       error: (error) => {
         this.status = error.message
@@ -81,7 +82,8 @@ export class FormComponent implements OnInit { //, AfterViewChecked {   //OnInit
     //console.log("delete", this.entityName, this.entity.id)
     this.entityService.delete(this.entityName,this.entity).subscribe({
       next: (data) => {
-        this.entity = data
+        this.entity.id = 0
+        console.log("delete", this.entityName, this.entity)
         this.status="Baja efectuada..."
       },
       error: (error) => {

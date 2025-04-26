@@ -2,12 +2,11 @@
 <app-list [entityName]="entityName" isRead="true" [status]="status">
 <div lisTpl>
 
-   {{entityName}} isRead={{isRead}}
-    <table>
+    <table id="miTabla" class="display">
       <thead>
           <tr>
               <th>#</th>
-              <th>Usuario</th>
+              <th (click)="sort('usuario')">Usuario</th>
               <th>Clave</th>
               <th>Estatus</th>
           </tr>
@@ -16,7 +15,7 @@
       <!-- 
           @for (entity of entityService.db[entityName]; track entity.id) {            
       -->
-          <tr *ngFor="let entity of entityService.db[entityName]">
+          <tr *ngFor="let entity of entityService.tb[entityName]">
               <td>{{entity.id}}</td>
               <td>{{entity.usuario}}</td>
               <td>{{entity.password}}</td>

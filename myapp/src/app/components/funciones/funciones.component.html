@@ -1,18 +1,21 @@
-<app-list [entityName]="entityName" isRead="true" [status]="status">
+<app-list name="Funciones"
+          [entityName]="entityName" isRead="true"
+          [status]="status" 
+          (pageChange)="setPageChange($event)" >
       
 <div lisTpl>
 
-    <table id="miTabla" class="display stripe" style="width:100%">
+    <table id="miTabla" class="display">
       <thead>
         <tr>
-            <th>
-                # <fa-icon [icon]="getIcon('id')" (click)="sort('id')"/></th>
-            <th>
-                Función <fa-icon [icon]="getIcon('funcion')" (click)="sort('funcion')"/></th>
-            <th>
-                Url <fa-icon [icon]="getIcon('url')" (click)="sort('url')"/></th>
-            <th>
-                Método <fa-icon [icon]="getIcon('metodo')" (click)="sort('metodo')"/></th>
+            <th (click)="sort('id')">
+                # <fa-icon [icon]="getIcon('id')"/></th>
+            <th (click)="sort('funcion')">
+                Función <fa-icon [icon]="getIcon('funcion')" /></th>
+            <th (click)="sort('url')">
+                Url <fa-icon [icon]="getIcon('url')" /></th>
+            <th (click)="sort('metodo')">
+                Método <fa-icon [icon]="getIcon('metodo')"/></th>
             <th class="acciones">
                 <label>Acciones</label>
                 <input type="checkbox" id="seleccionarTodo"

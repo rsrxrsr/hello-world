@@ -27,6 +27,7 @@
             <small class="invalid">Campo Función obligatorio</small>
           </div>
       </div>
+      <!--
       <div class="row">
         <label for="descripcion">Descripción</label>
         <textarea
@@ -45,10 +46,11 @@
           [(ngModel)]="entity.tipo" [readonly]="noEdit" 
           placeholder="..."
           required />              
-          <div *ngIf="inTipo.invalid && inTipo.touched">
-            <small class="invalid">Campo Tipo obligatorio</small>
-          </div>
+        <div *ngIf="inTipo.invalid && inTipo.touched">
+          <small class="invalid">Campo Tipo obligatorio</small>
         </div>
+      </div>
+      -->
       <div class="row">    
         <label for="url">Url</label>
         <input type="url"
@@ -67,6 +69,7 @@
           [(ngModel)]="entity.metodo" [disabled]="noEdit ? true : false" 
           placeholder="Seleccione..." 
           required >
+          <option value="GET">NG</option>
           <option value="GET">GET</option>
           <option value="POST">POST</option>    
           <option value="PUT">PUT</option>
