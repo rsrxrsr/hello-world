@@ -1,5 +1,5 @@
 
-<app-form #f entityName="funcions" name="hijoFuncion"
+<app-form #f entityName="funcions" name="Funcion"
   (editChange)="setEdit($event)" >
   <div formTpl>
 
@@ -69,7 +69,8 @@
           [(ngModel)]="entity.metodo" [disabled]="noEdit ? true : false" 
           placeholder="Seleccione..." 
           required >
-          <option value="GET">NG</option>
+          <option value="NG">NG</option>
+          <option value="All">ALL</option>
           <option value="GET">GET</option>
           <option value="POST">POST</option>    
           <option value="PUT">PUT</option>

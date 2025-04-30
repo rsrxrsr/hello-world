@@ -45,8 +45,9 @@ export class RestService {
   }
   
   login(entityName, entity): Observable<any> {
-    console.log("Rest/login ", entityName, entity);
-    return this.httpClient.post<any>(this.getUrl(entityName) + '/login', JSON.stringify(entity), this.getHttpOptions())
+    let url = `${this.apiServer}/entity/usuario/login`;
+    console.log("Rest/login ", url, entity);
+    return this.httpClient.post<any>(url, entity, this.getHttpOptions()) //JSON.stringify(entity)
       .pipe(catchError(this.errorHandler))
   }
 

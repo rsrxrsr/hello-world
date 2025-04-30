@@ -66,7 +66,7 @@ export class EntityService {
     return this.repositoryService.delete(entityName, entity.id);
   }  
 
-/*
+
  
   login(entityName: string, entity: any): Observable<any> {
     return this.repositoryService.login(entityName, entity);
@@ -75,6 +75,8 @@ export class EntityService {
   logout(): void {
     this.repositoryService.logout();
   }
+
+ /* 
 
   fileUpload(formData: FormData): Observable<any> {
     return this.repositoryService.fileUpload(formData);

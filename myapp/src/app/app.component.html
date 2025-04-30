@@ -2,17 +2,24 @@
 <header>
   <h1>R.S.R. Entity Form App</h1>
 </header>
+@if (secureService.isLogged) {
 <app-menu></app-menu>
 <div class="content">
   <aside class="sidebar">  
     <h2>Navigation</h2>
     <app-nav></app-nav>
-  </aside>  
+  </aside>
   <main class="main-content">
-  <!-- The routed views render in the <router-outlet>-->
-  <router-outlet></router-outlet>
-</main>
+    <!-- The routed views render in the <router-outlet>-->
+    <router-outlet></router-outlet>
+  </main>
 </div>
+} @else {
+  <main class="main-content">
+    <!-- The routed views render in the <router-outlet>-->
+    <router-outlet></router-outlet>
+  </main>
+}
 <footer>
   <p>&copy; 2025 My Angular App</p>
 </footer>

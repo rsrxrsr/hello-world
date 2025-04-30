@@ -1,7 +1,8 @@
 <nav>
 <ul>
 <li><a href="#home" class="home">Home</a></li>
-<li><a routerLink="/crud/create" 
+<li *ngIf="secureService.showMenu['crud/:update']">
+   <a routerLink="/crud/create" 
        routerLinkActive="active"
        ariaCurrentWhenActive="page"
     >CRUD Component</a></li>
@@ -12,27 +13,36 @@
 <li class="dropdown">
     <a href="javascript:void(0)" class="dropbtn">Componentes</a>
     <div class="dropdown-content">
-        <a routerLink="/usuarios/create"
+        <a *ngIf="secureService.showMenu['usuarios/:update']"
+           routerLink="/usuarios/create"
            routerLinkActive="active"
            ariaCurrentWhenActive="page">
            Usuario Component</a> 
-        <a routerLink="/usuarios/list" 
+        <a *ngIf="secureService.showMenu['usuarios/list']"
+           routerLink="/usuarios/list" 
            routerLinkActive="active"
            ariaCurrentWhenActive="page"
            (click)="handleLinkClick($event)">
            Usuarios Component</a>
-        <a routerLink="/funcions/create"
+        <a *ngIf="secureService.showMenu['funcions/:update']"
+           routerLink="/funcions/create"
            routerLinkActive="active"
            ariaCurrentWhenActive="page"
            >Funcion Component</a>
-        <a routerLink="/funcions/list"
+        <a *ngIf="secureService.showMenu['funcions/list']"
+            routerLink="/funcions/list"
             routerLinkActive="active"
             ariaCurrentWhenActive="page"
             (click)="handleLinkClick($event)"
-        >Funciones Component</a> 
+           >Funciones Component</a> 
    </div>
 </li>
-<li class="right"><a href="#logout">Logout</a></li>
+<li class="right">
+   <a routerLink="/login"
+   routerLinkActive="active"
+   ariaCurrentWhenActive="page"
+   (click)="handleLinkClick($event)"
+  >Logout</a>
 </ul>
 </nav>
         
