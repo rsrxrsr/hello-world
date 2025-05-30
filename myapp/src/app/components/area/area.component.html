@@ -1,0 +1,111 @@
+
+<app-form #f entityName="areas" name="Area"
+  (editChange)="setEdit($event)" >
+  <div formTpl>
+
+    <form id="idForm" #entityForm="ngForm" >
+      <div class="row">					
+        <label for="id">Id</label>
+        <input type="number"
+          id="id"  name="id" #inId="ngModel"  
+          [(ngModel)]="entity.id" [readonly]="noEdit" 
+          placeholder="..."
+          required />
+        <div *ngIf="inId.invalid && inId.touched">
+          <small class="invalid">Campo Id obligatorio</small>
+        </div>
+      </div>
+      <div class="row">
+        <label for="area">Area</label>
+        <input type="text"
+          id="area" name="area"  #inArea="ngModel"
+          [(ngModel)]="entity.area" [readonly]="noEdit" 
+          placeholder="Teclee datos..."
+          required min="2" />
+          <!-- @if (entityForm.controls['funcion'].invalid && entityForm.controls['funcion'].touched) { -->
+          <div *ngIf="inArea.invalid && entityForm.controls['area']?.touched">
+            <small class="invalid">Campo obligatorio</small>
+          </div>
+      </div>
+      <div class="row">
+        <label for="nivel">Nivel</label>
+        <input type="number"
+          id="nivel" name="nivel"  #inNivel="ngModel"
+          [(ngModel)]="entity.nivel" [readonly]="noEdit" 
+          placeholder="Teclee datos..."
+          required min="2" />
+          <div *ngIf="inNivel.invalid && entityForm.controls['nivel']?.touched">
+            <small class="invalid">Campo obligatorio</small>
+          </div>
+      </div>
+      <div class="row">
+        <label for="orden">Orden</label>
+        <input type="number"
+          id="orden" name="orden"  #inNivel="ngModel"
+          [(ngModel)]="entity.orden" [readonly]="noEdit" 
+          placeholder="Teclee datos..."
+          required min="2" />
+          <div *ngIf="inNivel.invalid && entityForm.controls['orden']?.touched">
+            <small class="invalid">Campo obligatorio</small>
+          </div>
+      </div>
+      <div class="row">
+        <label for="puesto">Puesto</label>
+        <input type="text"
+          id="puesto" name="puesto"  #inPuesto="ngModel"
+          [(ngModel)]="entity.puesto" [readonly]="noEdit" 
+          placeholder="Teclee datos..."
+          required min="2" />
+          <div *ngIf="inNivel.invalid && entityForm.controls['puesto']?.touched">
+            <small class="invalid">Campo obligatorio</small>
+          </div>
+      </div>
+      <div class="row">
+        <label for="jefe">Jefe</label>
+        <select id="jefe" name="jefe" #inJefatura="ngModel"
+          [(ngModel)]="entity.jefe" [compareWith]="compareFn" >
+          <option value="" disabled selected>-- Seleccione una opción --</option>
+            <option *ngFor="let opcion of entityService.db['usuarios']" [ngValue]="opcion">{{ opcion['usuario'] }}</option>
+        </select>
+        <div *ngIf="inNivel.invalid && entityForm.controls['jefatura']?.touched">
+          <small class="invalid">Campo obligatorio</small>
+        </div>
+      </div>
+      <div class="row">
+        <label for="jefatura">Jefatura</label>
+        <select id="jefatura" name="jefatura" #inJefatura="ngModel"
+          [(ngModel)]="entity.jefatura" [compareWith]="compareFn" >
+          <option value="" disabled selected>-- Seleccione una opción --</option>
+            <option *ngFor="let opcion of entityService.db['areas']" [ngValue]="opcion">{{ opcion['area'] }}</option>
+        </select>
+        <div *ngIf="inNivel.invalid && entityForm.controls['jefatura']?.touched">
+          <small class="invalid">Campo obligatorio</small>
+        </div>
+      </div>
+
+
+      <!--
+      <div class="row">
+        <label for="metodo">Método</label>
+        <select
+          id="metodo"  name="metodo" #inMetodo="ngModel"
+          [(ngModel)]="entity.metodo" [disabled]="noEdit ? true : false" 
+          placeholder="Seleccione..." 
+          required >
+          <option value="NG">NG</option>
+          <option value="All">ALL</option>
+          <option value="GET">GET</option>
+          <option value="POST">POST</option>    
+          <option value="PUT">PUT</option>
+          <option value="DELETE">DELETE</option>
+        </select>
+        <div *ngIf="inMetodo.invalid && inMetodo.touched">
+          <small class="invalid">Campo método obligatorio</small>
+        </div>
+      </div>
+      --> 
+    </form>      
+
+  </div>    
+</app-form>
+    

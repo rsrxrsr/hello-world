@@ -21,30 +21,26 @@ export class EntityService {
   constructor(
     //private router: Router,
     public repositoryService: RestService //Set RestService OR ArrayService for RestFull API
-   ) {}
+  ) {}
+
+  readById(entityName, id): Observable<any[]> {
+    //console.log("service/getAll:", entityName)
+    return this.repositoryService.readById(entityName, id)
+  }
 
   read(entityName: string): Observable<any[]> {
     //console.log("service/getAll:", entityName)
-    return this.repositoryService.getAll(entityName)
+    return this.repositoryService.read(entityName)
           .pipe(
             tap(data => this.db[entityName]=[...data])
-            ,map(data => data.map(entity => {
-               // entity.usuario=entity.usuario.toUpperCase();
-                return entity}))
-            /*      
-            , catchError(error =>{
-                //console.log("EntityService", `Error Code: ${error.status}\nMessage: ${error.message}`);
-                //this.status = error.message;
-                return throwError(() => (error))
-              })
-            */        
+            ,map(data => data)
             ,shareReplay(1)
           );
   }
 
-  readPage(entityName: string, page:number=0, size:number=10): Observable<any[]> {
-    //console.log("service/getAll:", entityName)
-    return this.repositoryService.readPage(entityName, page, size)
+  readPage(entityName: string, page:number=0, size:number=10, sort:string="id"): Observable<any[]> {
+    //console.log("Service/readPage:", entityName)
+    return this.repositoryService.readPage(entityName, page, size, sort)
           .pipe(
             tap(data => {this.db[entityName]=[...data["content"]]
                          this.tb[entityName]=[...data["content"]]
@@ -54,6 +50,16 @@ export class EntityService {
             ,map(data => data)
             ,shareReplay(1)
           );
+  }
+
+  readTree(entityName: string): Observable<any[]> {
+    //console.log("service/getAll:", entityName)
+    return this.repositoryService.readTree(entityName);
+  }
+
+  saveTree (entityName: string, tree: any): Observable<any> {
+    //console.log("service/save", entity);
+    return this.repositoryService.saveTree(entityName, tree);
   }
 
   save (entityName: string, entity: any): Observable<any> {

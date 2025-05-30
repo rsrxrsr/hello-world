@@ -1,0 +1,54 @@
+<app-list name="Areas"
+          [entityName]="entityName" isRead="true"
+          [status]="status" 
+          (pageChange)="setPageChange($event)" >
+      
+<div lisTpl>
+
+    <table id="miTabla" class="display">
+      <thead>
+        <tr>
+            <th (click)="sort('id')">
+                # <fa-icon [icon]="getIcon('id')"/></th>
+            <th (click)="sort('area')">
+                Área <fa-icon [icon]="getIcon('area')" /></th>
+            <th (click)="sort('nivel')">
+                Nivel <fa-icon [icon]="getIcon('nivel')" /></th>
+            <th (click)="sort('jefe?.usuario')">
+                Jefe <fa-icon [icon]="getIcon('jefe')" /></th>
+            <th (click)="sort('jefatura?.area')">
+                Jefatura <fa-icon [icon]="getIcon('jefatura')" /></th>
+            <th class="acciones">
+                <label>Acciones</label>
+                <input type="checkbox" id="seleccionarTodo"
+                [(ngModel)]="checkAll" (change)="swCheckAll($event)">
+            </th>
+        </tr>
+      </thead>
+      <tbody>
+    <!-- 
+        @for (entity of entityService.db[entityName]; track entity.id) {
+        -->
+        <tr *ngFor="let entity of entityService.tb[entityName]">
+            <td>{{entity.id}}</td>
+            <td>{{entity.area}}</td>
+            <td>{{entity.nivel}}</td>
+            <td>{{entity.jefe?.usuario}}</td>
+            <td>{{entity.jefatura?.area}}</td>
+            <td class="acciones">
+                <button type="button" (click)="selectRow(entity)">
+                    <fa-icon [icon]="faPenToSquare"/>
+                    Editar</button>
+                <button type="button" (click)="delete(entity)">
+                    <fa-icon [icon]="faTrashCan"/>
+                    Borrar</button>
+                <input type="checkbox" class="checkFila"
+                    [(ngModel)]="entity.checked" (change)="setCheckAll()">    
+            </td>
+        </tr>
+    </tbody>
+</table>
+    <button class="select" (click)="procesarDatos(fxMayusculas)">Selección a Mayúsculas</button>
+    <button class="select" (click)="procesarDatos(fxMinusculas)">Selección a Mínusculas</button>
+</div>
+</app-list>

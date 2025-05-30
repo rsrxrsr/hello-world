@@ -29,8 +29,9 @@ export class FormComponent implements OnInit { //, AfterViewChecked {   //OnInit
   }  
 
   entity:any={};
+  catalogos:[]=[];
   isUpdate:Boolean=true;
-  noEdit:Boolean = false;
+  noEdit:Boolean = true;
   status: string="Seleccione opción...";
   //public entityService : Irepository = inject(ArrayService);
   
@@ -44,6 +45,7 @@ export class FormComponent implements OnInit { //, AfterViewChecked {   //OnInit
     this.entityName = (this.entityName) ? this.entityName : this.activatedRoute.snapshot.url[0].path;
     this.name = (this.name) ? this.name : this.entityName; 
     console.log("formComponente", this.name, this.entityName)
+    this.readCatalogos()
     if (this.activatedRoute.snapshot.params["update"]==="create") {
       this.isUpdate=false;
       this.noEdit=false;
@@ -63,6 +65,24 @@ export class FormComponent implements OnInit { //, AfterViewChecked {   //OnInit
     this.noEdit=false;
     this.onEditChange(this.noEdit);
     this.status=this.name + " Edición de datos..."
+  }
+
+  readCatalogos() {
+    console.log(this.name, "Catalogos", this.catalogos)
+    this.catalogos.forEach((catalogo) => {
+      this.readCatalog(catalogo,catalogo)
+    })
+   }       
+
+  readCatalog(catalogName, sort) { 
+  this.entityService.readPage(catalogName,0,100,sort).subscribe({
+    next: (data) => {
+      this.status = "Catalogo listo...";
+    },
+    error: (error) => {
+      console.log("ListComponent", `Error Code: ${error.status}\nMessage: ${error.message}`);
+      this.status = error.message;
+    } })
   }
 
   save() {
@@ -95,12 +115,13 @@ export class FormComponent implements OnInit { //, AfterViewChecked {   //OnInit
   	this.location.back()
   }
 
-/* Utility
+//
   compareFn(c1: any, c2: any): boolean {
-    //return c1 && c2 ? c1.id === c2.id : c1 === c2;
-    return c1 && c2 && c1 === c2;
+    //console.log("compareFn", c1, c2)
+    return c1 && c2 ? c1.id === c2.id : c1 === c2;
+    //return c1 && c2 && c1 === c2;
   }
-*/
+//
 
 /*
   this.entityForm?.valid //valida forma

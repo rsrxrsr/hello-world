@@ -25,9 +25,18 @@ export class RestService {
    	//private router: Router
   ) {}
 
-  getUrl(entityName):string {
-    //console.log("getUrl", this.apiServer + "/entity/restapi/" + entityUrl) 
-    return this.apiServer + "/entity/restapi/" + entityName    //return this.apiServer + "/entity/" + entityName
+  getUrl(entityName, opcion:string="restapi"):string {
+    //console.log("getUrl", this.apiServer + "/entity/restapi/" + entityUrl)
+    let url = "";
+    if (opcion == "pagina" && entityName == "areas") {
+      url = `${this.apiServer}/entity/area/pagina`;
+    } else 
+    if (entityName == "areas") {
+      url = `${this.apiServer}/entity/area`;
+    } else {
+      url = `${this.apiServer}/entity/restapi/${entityName}`;
+    }
+    return url;
   }
 
   private getHttpOptions() {
@@ -53,31 +62,51 @@ export class RestService {
 
   logout() {}
 
-  getAll(entityName): Observable<any[]> {
-    return this.httpClient.get<any[]>(this.getUrl(entityName))  //, this.getHttpOptions())
-      .pipe(map (data => data["_embedded"][entityName].map(entity => {
-                  entity.id=entity["_links"]["self"].href.split("/").pop();
-            return entity}))
-           ,shareReplay(1)
-           , catchError(this.errorHandler))
+  readById(entityName, id): Observable<any[]> {
+    let url = `${this.apiServer}/entity/${entityName}/${id}`;
+    return this.httpClient.get<any[]>(url)  //, this.getHttpOptions())
+      .pipe(catchError(this.errorHandler))
   }
 
-  readPage(entityName, page:number=0, size:number=10): Observable<any[]> {
-    let url = this.getUrl(entityName) + "?page=" + page + "&size=" + size;
-    console.log("Rest/readPage ", url);
+  read(entityName): Observable<any[]> {
+    let url = `${this.apiServer}/entity/${entityName}`;
+    return this.httpClient.get<any[]>(url)  //, this.getHttpOptions())
+      .pipe(catchError(this.errorHandler))
+  }
+
+  readPage(entityName, page:number, size:number, sort:string): Observable<any[]> {
+    let url = `${this.getUrl(entityName, 'pagina')}?page=${page}&size=${size}&sort=${sort}`;
+    //console.log("Rest/readPage ", url);
     return this.httpClient.get<any[]>(url) //, this.getHttpOptions())
       .pipe(
         map(data => {
-          this.data.content=data["_embedded"][entityName].map(entity => {
-            entity.id=entity["_links"]["self"].href.split("/").pop()
-            return entity
-          });
-          this.data.page=data["page"];
-          return this.data;
+          if (url.includes("restapi")) {
+            this.data.content=data["_embedded"][entityName].map(entity => {
+              entity.id=entity["_links"]["self"].href.split("/").pop()
+              return entity
+            });
+            this.data.page=data["page"];
+            return this.data;  
+          } else {
+            return data;
+          }
         })  
         , shareReplay(1)
         , catchError(this.errorHandler)
       )
+  }
+
+  readTree(entityName): Observable<any[]> {
+    let url = `${this.apiServer}/entity/${entityName}/tree`;
+    return this.httpClient.get<any[]>(url)  //, this.getHttpOptions())
+      .pipe(catchError(this.errorHandler))
+  }
+
+  saveTree(entityName, tree): Observable<any> {
+    let url = `${this.apiServer}/entity/${entityName}/tree`;
+    console.log("Rest/saveTree ", url);
+    return this.httpClient.post<any>(url, tree) //, this.getHttpOptions())
+          .pipe(catchError(this.errorHandler))
   }
 
   save(entityName, entity): Observable<any> {
@@ -85,7 +114,7 @@ export class RestService {
     let url = this.getUrl(entityName);
     return this.httpClient.post<any>(url, entity, this.getHttpOptions()) 
           .pipe(map(entity => {
-            entity.id=Number(entity["_links"]["self"].href.split("/").pop())
+            //entity.id=Number(entity["_links"]["self"].href.split("/").pop())
             return entity
           })
           , catchError(this.errorHandler)) // *** JSON.stringify(entity) ***
@@ -142,7 +171,7 @@ export class RestService {
         default:
           errorMessage = `Code=${error.status}\nMessage: ${error.message}`;
     }    
-    console.log("RestService", errorMessage);
+    console.log("RestError", errorMessage);
     error.message = "Error: " + errorMessage;
     return throwError(() => (error));
   }

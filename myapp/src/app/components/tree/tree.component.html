@@ -1,0 +1,62 @@
+<div id="viewTree" *ngIf="ulClass=='tree'">
+    <h2>Tree works! {{ entityName }}</h2>
+    <button (click)="add()">Add</button>
+    <button (click)="addChild()">Child</button>
+    <button (click)="copy(false)">Copy</button>
+    <button (click)="copy(true)">Cut</button>
+    <button (click)="paste()">Paste</button>
+    <button (click)="del()">Del</button>
+    <button (click)="show()">Show</button>
+    <button (click)="saveTree()">Save</button>
+</div>
+<ul [class]="ulClass">
+    <ng-container *ngFor="let item of tree[childsName]; index as i">
+        <ng-container  *ngIf="item[childsName]?.length > 0; else hoja">
+            <li  [attr.data-parent]="i"
+                draggable="true" (dragstart)="dragStart($event,tree,i)" (dragover)="allowDrop($event)" (drop)="drop($event,tree,i)">
+                <label for="rama{{i}}"
+                    (click)="setPath($event);fixNode(tree,i)"
+                    *ngIf="ulClass=='tree'">
+                     {{item[parentName]}} 
+                </label>
+                <label for="rama{{i}}"
+                (click)="setPath($event);fixNode(tree,i)"
+                *ngIf="ulClass!='tree'">
+                 {{item[nodeName]}} 
+                </label>
+                <input type="checkbox" id="rama{{i}}"
+                    (focus)="onFocus($event)" (blur)="onBlur($event)"/>
+                <app-tree [tree]="tree[childsName][i]" (setBranch)="setNode($event)" ulClass="folder" ulParent="{{i}}"></app-tree>
+            </li>
+        </ng-container>            
+        <ng-template #hoja>
+            <li class="file"  [attr.data-parent]="i"
+                (click)="setPath($event);fixNode(tree,i)"
+                draggable="true" (dragstart)="dragStart($event,tree,i)" (dragover)="allowDrop($event)" (drop)="drop($event,tree,i)">
+                <a href="javascript:void(0)" (focus)="onFocus($event)" (blur)="onBlur($event)">
+                    {{item[nodeName] || item[parentName]}} 
+                    <ng-container *ngIf="!item['id'] && catalogName == 'tree'">
+                        <input type="text" id="rama{{i}}" [(ngModel)]="item[nodeName]"
+                                placeholder="Ingrese nombre..." 
+                                list="listOptions">
+                        <datalist id="listOptions">
+                            <option *ngFor="let opcion of entityService.db[catalogName]" [value]="opcion[nodeName]">{{ opcion[nodeName] }}</option>
+                        </datalist>
+                    </ng-container>
+                    <ng-container *ngIf="!item['id'] && catalogName != 'tree'">
+                        <select id="rama{{i}}" [(ngModel)]="item[nodeName]" 
+                                                        (ngModelChange)="onChange(tree[childsName], i, $event)" >
+                            <option value="" disabled selected>-- Seleccione una opción --</option>
+                            <option *ngFor="let opcion of entityService.db[catalogName]; index as j" [value]="opcion[nodeName]"> {{ opcion[nodeName] }}</option>
+                        </select>
+                    </ng-container>
+                </a>
+            </li>
+        </ng-template>
+    </ng-container> 
+</ul>
+
+<p *ngIf="ulClass=='tree'" 
+    [ngClass]="status.startsWith('Error: ')  ? 'status alert' : 'status'">
+    {{ status }}
+ </p>

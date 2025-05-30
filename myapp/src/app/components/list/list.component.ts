@@ -58,7 +58,7 @@ orden = {};
     this.name = (this.name) ? this.name : this.entityName; 
     console.log("listComponente:", this.name, "entityName", this.entityName, "isRead=", this.isRead)
     //this.entityService.db = {"usuario": [{"id": 1, "usuario":"un usuario x", "estatus": 1, "password": "un password y"}]}; //test
-    this.entityService.pg[this.entityName] = (this.entityService.pg[this.entityName]) ? this.entityService.pg[this.entityName] : {"totalElements": 0, "totalPages": 0, "size": 10, "number": 0};
+    this.entityService.pg[this.entityName] = (this.entityService.pg[this.entityName]) ? this.entityService.pg[this.entityName] : {"totalElements": 0, "totalPages": 0, "size": 10, "number": 1};
     this.status =  "Consulta..."
     if (this.isRead==="false") { //&& !this.entityService.db[this.entityName]) {
       this.readPage(this.entityService.pg[this.entityName].number-1, this.entityService.pg[this.entityName].size)

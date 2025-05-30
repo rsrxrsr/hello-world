@@ -10,7 +10,19 @@ export class ArrayService implements Irepository {
   db: any={}; 
   entity: any={};
   status: string="Seleccione Opción...";
-
+/*
+  tree =  {"area":"Empresa",
+    "childs":[{"area":"Area.1","childs":[]},
+              {"area":"Area.2","childs":[
+               {"area":"Area.2.1","childs":[
+                 {"area":"Area.2.1.1","childs":[]},
+                 {"area":"Area.2.1.2","childs":[]},                
+               ]},
+               {"area":"Area.2.2","childs":[]},
+               {"area":"Area.2.3","childs":[]},              
+              ]},
+              {"area":"Area.3","childs":[]}]}
+*/
   constructor() {}
 
   read (entityName: string): Observable<any[]> {
@@ -51,6 +63,7 @@ export class ArrayService implements Irepository {
       return throwError(() => new Error("Registro inexistente"));
     }
     return of(this.db[entityName][idx]);
-  }  
+  }
+   
  //
 }

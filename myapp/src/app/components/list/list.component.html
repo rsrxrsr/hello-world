@@ -13,13 +13,13 @@
     <fa-icon [icon]="faPlus"/>
     Agregar
   </a>
-  <span class="searchContainer">
-    <input type="text" id="filtro" class="search"
-     [(ngModel)]="filtro" (keyup)="filtrarDatos()"
-     placeholder="Buscar...">
-     <label for="filtro">
+  <span>
+    <input type="text" id="filtro"  class="search"
+      [(ngModel)]="filtro" (keyup)="filtrarDatos()"
+      placeholder="Buscar...">  
+    <label for="filtro" class="searchContainer">
       <fa-icon [icon]="faMagnifyingGlass"/>
-    </label>
+    </label>  
   </span>
 </ng-template>
 

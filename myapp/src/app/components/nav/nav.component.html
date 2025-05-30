@@ -3,24 +3,50 @@
 <li class="dropdown">
     <a href="javascript:void(0)" class="home dropbtn">Componentes</a>
     <div class="dropdown-content">
+        <a routerLink="/area/tree"
+           routerLinkActive="active"
+           ariaCurrentWhenActive="page"
+            >Area tree</a>
+        <a routerLink="/usuario/rols/tree"
+            routerLinkActive="active"
+            ariaCurrentWhenActive="page"
+             >Usuario Rol</a>
+         <a routerLink="/rol/tree"
+           routerLinkActive="active"
+           ariaCurrentWhenActive="page"
+            >Rol tree</a>    
+        <a routerLink="/rol/funcions/tree"
+            routerLinkActive="active"
+            ariaCurrentWhenActive="page"
+            >Rol Funcion</a>
         <a routerLink="/usuarios/create"
            routerLinkActive="active"
            ariaCurrentWhenActive="page"
-            >Usuario Component</a> 
+            >Usuario</a> 
         <a routerLink="/usuarios/list" 
             routerLinkActive="active"
             ariaCurrentWhenActive="page"
             (click)="handleLinkClick($event)"
-            >Usuarios Component</a>
+            >Usuarios</a>
+        <a routerLink="/areas/create" 
+            routerLinkActive="active"
+            ariaCurrentWhenActive="page"
+            (click)="handleLinkClick($event)"
+            >Area</a>    
+        <a routerLink="/areas/list" 
+            routerLinkActive="active"
+            ariaCurrentWhenActive="page"
+            (click)="handleLinkClick($event)"
+            >Areas</a>
         <a routerLink="/funcions/create"
             routerLinkActive="active"
             ariaCurrentWhenActive="page"
-            >Funcion Component</a>
+            >Función</a>
         <a routerLink="/funcions/list"
             routerLinkActive="active"
             ariaCurrentWhenActive="page"
             (click)="handleLinkClick($event)"
-            >Funciones Component</a> 
+            >Funciones</a> 
    </div>
 </li>
 </ul>
