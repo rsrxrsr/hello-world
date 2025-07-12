@@ -1,5 +1,5 @@
 <app-list name="Areas"
-          [entityName]="entityName" isRead="true"
+          entityName="area/ctrl" isRead="true"
           [status]="status" 
           (pageChange)="setPageChange($event)" >
       
@@ -14,10 +14,12 @@
                 Área <fa-icon [icon]="getIcon('area')" /></th>
             <th (click)="sort('nivel')">
                 Nivel <fa-icon [icon]="getIcon('nivel')" /></th>
-            <th (click)="sort('jefe?.usuario')">
+            <th (click)="sort('jefe', 'usuario')">
                 Jefe <fa-icon [icon]="getIcon('jefe')" /></th>
-            <th (click)="sort('jefatura?.area')">
+            <th (click)="sort('jefatura', 'area')">
                 Jefatura <fa-icon [icon]="getIcon('jefatura')" /></th>
+            <th>
+                Estatus</th>
             <th class="acciones">
                 <label>Acciones</label>
                 <input type="checkbox" id="seleccionarTodo"
@@ -35,6 +37,7 @@
             <td>{{entity.nivel}}</td>
             <td>{{entity.jefe?.usuario}}</td>
             <td>{{entity.jefatura?.area}}</td>
+            <td>{{entity.estatus}}</td>
             <td class="acciones">
                 <button type="button" (click)="selectRow(entity)">
                     <fa-icon [icon]="faPenToSquare"/>

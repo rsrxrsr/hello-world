@@ -33,22 +33,21 @@ export class EntityService {
     return this.repositoryService.read(entityName)
           .pipe(
             tap(data => this.db[entityName]=[...data])
-            ,map(data => data)
-            ,shareReplay(1)
+            //,map(data => data)
           );
   }
 
-  readPage(entityName: string, page:number=0, size:number=10, sort:string="id"): Observable<any[]> {
+  readPage(path: string, page:number=0, size:number=10, sort:string="id"): Observable<any[]> {
     //console.log("Service/readPage:", entityName)
-    return this.repositoryService.readPage(entityName, page, size, sort)
+    let entityName = path.replace(/\/ctrl$/, "");
+    return this.repositoryService.readPage(path, page, size, sort)
           .pipe(
             tap(data => {this.db[entityName]=[...data["content"]]
-                         this.tb[entityName]=[...data["content"]]
+                         //this.tb[entityName]=[...data["content"]]
                          this.pg[entityName]=data["page"]
                          this.pg[entityName]["number"]+=1; //page starts at 0
                         console.log("readPage", this.pg[entityName])})
-            ,map(data => data)
-            ,shareReplay(1)
+            //,map(data => data)
           );
   }
 

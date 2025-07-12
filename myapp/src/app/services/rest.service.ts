@@ -25,17 +25,10 @@ export class RestService {
    	//private router: Router
   ) {}
 
-  getUrl(entityName, opcion:string="restapi"):string {
-    //console.log("getUrl", this.apiServer + "/entity/restapi/" + entityUrl)
-    let url = "";
-    if (opcion == "pagina" && entityName == "areas") {
-      url = `${this.apiServer}/entity/area/pagina`;
-    } else 
-    if (entityName == "areas") {
-      url = `${this.apiServer}/entity/area`;
-    } else {
-      url = `${this.apiServer}/entity/restapi/${entityName}`;
-    }
+  getUrl(path, metodo:string=""):string {
+    let entityName = (path.includes("/ctrl") && metodo != "DELETE")
+        ? path.replace(/\/ctrl$/, metodo) : `restapi/${path}`;
+    let url = `${this.apiServer}/entity/${entityName}`;
     return url;
   }
 
@@ -65,31 +58,45 @@ export class RestService {
   readById(entityName, id): Observable<any[]> {
     let url = `${this.apiServer}/entity/${entityName}/${id}`;
     return this.httpClient.get<any[]>(url)  //, this.getHttpOptions())
-      .pipe(catchError(this.errorHandler))
+      .pipe( shareReplay(1)
+           , catchError(this.errorHandler))
   }
 
   read(entityName): Observable<any[]> {
     let url = `${this.apiServer}/entity/${entityName}`;
     return this.httpClient.get<any[]>(url)  //, this.getHttpOptions())
-      .pipe(catchError(this.errorHandler))
+      .pipe( shareReplay(1),
+             catchError(this.errorHandler))
   }
 
-  readPage(entityName, page:number, size:number, sort:string): Observable<any[]> {
-    let url = `${this.getUrl(entityName, 'pagina')}?page=${page}&size=${size}&sort=${sort}`;
-    //console.log("Rest/readPage ", url);
+  readPage(entityName:string, page:number, size:number, sort:string): Observable<any[]> {
+    return (entityName.includes("/ctrl")) ?
+      this.readPagina(entityName, page, size, sort)
+      :
+      this.readApi(entityName, page, size, sort);
+  }
+
+  readPagina(entityName:string, page:number, size:number, sort:string): Observable<any[]> {
+    let url = `${this.getUrl(entityName, "/pagina")}?page=${page}&size=${size}&sort=${sort}`;
+    console.log("Rest/readPage ", url);
+    return this.httpClient.get<any[]>(url) //, this.getHttpOptions())
+      .pipe( shareReplay(1)
+           , catchError(this.errorHandler)
+      )
+  }
+
+  readApi(entityName:string, page:number, size:number, sort:string): Observable<any[]> {
+    let url = `${this.getUrl(entityName)}?page=${page}&size=${size}&sort=${sort}`;      
+    console.log("Rest/readPage ", url);
     return this.httpClient.get<any[]>(url) //, this.getHttpOptions())
       .pipe(
         map(data => {
-          if (url.includes("restapi")) {
-            this.data.content=data["_embedded"][entityName].map(entity => {
-              entity.id=entity["_links"]["self"].href.split("/").pop()
-              return entity
-            });
-            this.data.page=data["page"];
-            return this.data;  
-          } else {
-            return data;
-          }
+          this.data.content=data["_embedded"][entityName].map(entity => {
+            entity.id=entity["_links"]["self"].href.split("/").pop()
+            return entity
+          });
+          this.data.page=data["page"];
+          return this.data;  
         })  
         , shareReplay(1)
         , catchError(this.errorHandler)
@@ -99,7 +106,8 @@ export class RestService {
   readTree(entityName): Observable<any[]> {
     let url = `${this.apiServer}/entity/${entityName}/tree`;
     return this.httpClient.get<any[]>(url)  //, this.getHttpOptions())
-      .pipe(catchError(this.errorHandler))
+      .pipe( shareReplay(1)      
+           , catchError(this.errorHandler))
   }
 
   saveTree(entityName, tree): Observable<any> {
@@ -110,18 +118,20 @@ export class RestService {
   }
 
   save(entityName, entity): Observable<any> {
+    let url = `${this.getUrl(entityName)}`;
     console.log("Rest/save ", entityName, entity);
-    let url = this.getUrl(entityName);
     return this.httpClient.post<any>(url, entity, this.getHttpOptions()) 
           .pipe(map(entity => {
-            //entity.id=Number(entity["_links"]["self"].href.split("/").pop())
+            if (!entity.id) {
+               entity.id=Number(entity["_links"]["self"].href.split("/").pop())
+            }
             return entity
           })
           , catchError(this.errorHandler)) // *** JSON.stringify(entity) ***
   }
 
   delete(entityName, id) {
-    let url = `${this.getUrl(entityName)}/${id}`;
+    let url = `${this.getUrl(entityName, 'DELETE')}/${id}`;
     console.log("Rest/delete ", url);
     return this.httpClient.delete<any>(url, this.getHttpOptions())
           .pipe(catchError(this.errorHandler))

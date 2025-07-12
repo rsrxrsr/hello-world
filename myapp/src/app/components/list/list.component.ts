@@ -44,6 +44,7 @@ faSortDown = faSortDown
 datosSeleccionados: any[] = []; // Array para almacenar los datos de las filas seleccionadas
 filtro: string = '';
 
+path:string="";
 checkAll: boolean = false;
 orden = {};
 
@@ -54,46 +55,17 @@ orden = {};
   ) {}
 
   ngOnInit(): void {
-    this.entityName = (this.entityName) ? this.entityName : this.activatedRoute.snapshot.url[0].path;
-    this.name = (this.name) ? this.name : this.entityName; 
-    console.log("listComponente:", this.name, "entityName", this.entityName, "isRead=", this.isRead)
+    this.path = this.entityName || this.activatedRoute.snapshot.url[0].path;
+    this.entityName = this.path.replace(/\/ctrl$/, "");
+    this.name = this.name || this.entityName; 
+    let isPage = this.activatedRoute.snapshot.url[1].path === "page";
+    console.log("listComponente:", this.name, "entityName", this.path, "isRead=", this.isRead)
     //this.entityService.db = {"usuario": [{"id": 1, "usuario":"un usuario x", "estatus": 1, "password": "un password y"}]}; //test
-    this.entityService.pg[this.entityName] = (this.entityService.pg[this.entityName]) ? this.entityService.pg[this.entityName] : {"totalElements": 0, "totalPages": 0, "size": 10, "number": 1};
+    this.entityService.pg[this.entityName] = {"totalElements": 0, "totalPages": 0, "size": 10, "number": 1};
     this.status =  "Consulta..."
-    if (this.isRead==="false") { //&& !this.entityService.db[this.entityName]) {
+    if (this.isRead==="true") { //&& !this.entityService.db[this.entityName]) {
       this.readPage(this.entityService.pg[this.entityName].number-1, this.entityService.pg[this.entityName].size)
     }  
-  }
-
-  readPage(page: number=0, size: number=10) {   
-    this.entityService.readPage(this.entityName, page, size).subscribe({
-      next: (data) => {
-        //this.datos=this.entityService.db[this.entityName];
-        this.filtrarDatos();        
-        this.status="Consulta lista..."
-        this.onPageChange(true);
-      },
-      error: (error) => {
-        //console.log("ListComponent", `Error Code: ${error.status}\nMessage: ${error.message}`);
-        this.status = error.message;
-      },
-      complete: () => {
-        console.log('Suscripción completa');
-        this.status="Consulta completa"
-      },
-    }); 
-  }
-   
-  delete(entity: any) {
-    //console.log("delete", this.entityName, entity)
-    this.entityService.delete(this.entityName, entity).subscribe({
-      next: (data) => {
-        this.status="Baja efectuada..."
-        this.readPage(this.entityService.pg[this.entityName].number-1, this.entityService.pg[this.entityName].size)
-      },
-      error: (error) => {
-        this.status = error.message
-    }})
   }
 
   selectRow(entity: any) {
@@ -109,15 +81,16 @@ orden = {};
       default: return this.faSort;}
   }
   
-  sort (column: any): void {
+  sort (column: any, name: string=""): void {
     let orden = (this.orden[column]===1) ? -1 : 1;
-    this.orden = {}; 
+    this.orden = []; 
     this.orden[column] = orden;      
     console.log("Sort", column, orden);
     if (this.entityService.tb[this.entityName].length <= 0) return;
     this.entityService.tb[this.entityName].sort((a, b) => {
-      let x=a[column]
-      let y=b[column]
+      //console.log("Sort", column, name, a, b);
+      let x = a[column] && name ? a[column][name] : a[column] ? a[column] : "";
+      let y = b[column] && name ? b[column][name] : b[column] ? b[column] : "";
       if (Number(x) && Number(y)) {
         return (x - y) * orden 
       } else {
@@ -136,12 +109,14 @@ orden = {};
       this.entityService.tb[this.entityName] = this.entityService.db[this.entityName];
     } else { 
       const filtroMinuscula = this.filtro.toLowerCase();
-      this.entityService.tb[this.entityName] = this.entityService.tb[this.entityName].filter(item => {
+      this.entityService.tb[this.entityName] = this.entityService.db[this.entityName].filter(item => {
         return Object.values(item).some(valor => {
           if (typeof valor === 'string') {
             return valor.toLowerCase().includes(filtroMinuscula)
+          } else if (typeof valor === 'number') {
+            return valor.toString().includes(filtroMinuscula)
           }
-          return valor === this.filtro; // Si el valor no es string, intenta la comparación directa
+          return valor === this.filtro; // Si el valor no es primitivo, intenta la comparación directa
         })
       })
     }
@@ -171,8 +146,38 @@ orden = {};
     if (event.key === 'Enter') {
       console.log("Tecla Enter presionada");
       this.readPage(page, this.entityService.pg[this.entityName].size)
-      // Aquí tu lógica
     }
   }
   
+  readPage(page: number=0, size: number=10) {   
+    this.entityService.readPage(this.path, page, size, "id").subscribe({
+      next: (data) => {
+        //this.datos=this.entityService.db[this.entityName];
+        this.filtrarDatos();        
+        this.status="Consulta lista..."
+        this.onPageChange(true);
+      },
+      error: (error) => {
+        //console.log("ListComponent", `Error Code: ${error.status}\nMessage: ${error.message}`);
+        this.status = error.message;
+      },
+      complete: () => {
+        console.log('Suscripción completa');
+        this.status="Consulta completa"
+      },
+    }); 
+  }
+   
+  delete(entity: any) {
+    //console.log("delete", this.entityName, entity)
+    this.entityService.delete(this.path, entity).subscribe({
+      next: (data) => {
+        this.status="Baja efectuada..."
+        this.readPage(this.entityService.pg[this.entityName].number-1, this.entityService.pg[this.entityName].size)
+      },
+      error: (error) => {
+        this.status = error.message
+    }})
+  }
+
 } //End Component

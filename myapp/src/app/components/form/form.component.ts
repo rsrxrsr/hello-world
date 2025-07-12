@@ -15,8 +15,9 @@ import { EntityService} from '../../services/entity.service';
 })
 export class FormComponent implements OnInit { //, AfterViewChecked {   //OnInit {
   @ContentChild('entityForm', {read: NgForm}) entityForm!: NgForm;
-  @Input() entityName: any | undefined;
   @Input() name: string="FormComponent";
+  @Input() entityName: any | undefined;
+  @Input() catalogos: any | undefined;
 
   @Output() editChange = new EventEmitter<Boolean>();
   onEditChange(noEdit: Boolean) {
@@ -28,8 +29,8 @@ export class FormComponent implements OnInit { //, AfterViewChecked {   //OnInit
     this.noEdit=noEdit;
   }  
 
+  path:string="";
   entity:any={};
-  catalogos:[]=[];
   isUpdate:Boolean=true;
   noEdit:Boolean = true;
   status: string="Seleccione opción...";
@@ -42,8 +43,10 @@ export class FormComponent implements OnInit { //, AfterViewChecked {   //OnInit
   ) {}
      
   ngOnInit(): void {    
-    this.entityName = (this.entityName) ? this.entityName : this.activatedRoute.snapshot.url[0].path;
-    this.name = (this.name) ? this.name : this.entityName; 
+    this.path = this.entityName || this.activatedRoute.snapshot.url[0].path;
+    this.entityName = this.path.replace(/\/ctrl$/, "");
+    this.name = this.name || this.entityName; 
+    this.catalogos = this.catalogos || [];
     console.log("formComponente", this.name, this.entityName)
     this.readCatalogos()
     if (this.activatedRoute.snapshot.params["update"]==="create") {
@@ -69,8 +72,12 @@ export class FormComponent implements OnInit { //, AfterViewChecked {   //OnInit
 
   readCatalogos() {
     console.log(this.name, "Catalogos", this.catalogos)
-    this.catalogos.forEach((catalogo) => {
-      this.readCatalog(catalogo,catalogo)
+    this.catalogos.forEach((catalogo: String) => {
+      if (catalogo.includes("Enum/")) {
+        this.read(catalogo.substring(catalogo.indexOf('/') + 1));
+      } else {
+        this.readCatalog(catalogo,catalogo);
+      }    
     })
    }       
 
@@ -85,9 +92,21 @@ export class FormComponent implements OnInit { //, AfterViewChecked {   //OnInit
     } })
   }
 
+  read(catalogName) { 
+    this.entityService.read(catalogName).subscribe({
+    next: (data) => {
+      this.status = "Catalogo listo...";
+      //console.log("Read", data, this.entityService.db["area/nivel"]);
+    },
+    error: (error) => {
+      console.log("ListComponent", `Error Code: ${error.status}\nMessage: ${error.message}`);
+      this.status = error.message;
+    } })
+  }
+
   save() {
     //console.log("save", this.entityName, this.entity)
-    this.entityService.save(this.entityName,this.entity).subscribe({
+    this.entityService.save(this.path,this.entity).subscribe({
       next: (data) => {
         this.entity.id = data.id
         this.status="Registro efectuado..."
@@ -100,9 +119,8 @@ export class FormComponent implements OnInit { //, AfterViewChecked {   //OnInit
   
   delete() {
     //console.log("delete", this.entityName, this.entity.id)
-    this.entityService.delete(this.entityName,this.entity).subscribe({
+    this.entityService.delete(this.path,this.entity).subscribe({
       next: (data) => {
-        this.entity.id = 0
         console.log("delete", this.entityName, this.entity)
         this.status="Baja efectuada..."
       },
@@ -118,8 +136,7 @@ export class FormComponent implements OnInit { //, AfterViewChecked {   //OnInit
 //
   compareFn(c1: any, c2: any): boolean {
     //console.log("compareFn", c1, c2)
-    return c1 && c2 ? c1.id === c2.id : c1 === c2;
-    //return c1 && c2 && c1 === c2;
+    return c1 && c2 ? Number(c1.id) === Number(c2.id) : c1 === c2;
   }
 //
 

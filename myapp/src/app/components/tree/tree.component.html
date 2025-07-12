@@ -20,9 +20,9 @@
                      {{item[parentName]}} 
                 </label>
                 <label for="rama{{i}}"
-                (click)="setPath($event);fixNode(tree,i)"
-                *ngIf="ulClass!='tree'">
-                 {{item[nodeName]}} 
+                    (click)="setPath($event);fixNode(tree,i)"
+                    *ngIf="ulClass!='tree'">
+                    {{item[nodeName]}} 
                 </label>
                 <input type="checkbox" id="rama{{i}}"
                     (focus)="onFocus($event)" (blur)="onBlur($event)"/>
@@ -40,14 +40,14 @@
                                 placeholder="Ingrese nombre..." 
                                 list="listOptions">
                         <datalist id="listOptions">
-                            <option *ngFor="let opcion of entityService.db[catalogName]" [value]="opcion[nodeName]">{{ opcion[nodeName] }}</option>
+                            <option *ngFor="let opcion of tree[childsName]" [value]="opcion[nodeName]">{{ opcion[nodeName] }}</option>
                         </datalist>
                     </ng-container>
                     <ng-container *ngIf="!item['id'] && catalogName != 'tree'">
                         <select id="rama{{i}}" [(ngModel)]="item[nodeName]" 
                                                         (ngModelChange)="onChange(tree[childsName], i, $event)" >
                             <option value="" disabled selected>-- Seleccione una opción --</option>
-                            <option *ngFor="let opcion of entityService.db[catalogName]; index as j" [value]="opcion[nodeName]"> {{ opcion[nodeName] }}</option>
+                            <option *ngFor="let opcion of entityService.db[catalogName]" [value]="opcion[nodeName]"> {{ opcion[nodeName] }}</option>
                         </select>
                     </ng-container>
                 </a>

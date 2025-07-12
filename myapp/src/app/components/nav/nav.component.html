@@ -3,46 +3,46 @@
 <li class="dropdown">
     <a href="javascript:void(0)" class="home dropbtn">Componentes</a>
     <div class="dropdown-content">
-        <a routerLink="/area/tree"
-           routerLinkActive="active"
-           ariaCurrentWhenActive="page"
-            >Area tree</a>
-        <a routerLink="/usuario/rols/tree"
-            routerLinkActive="active"
-            ariaCurrentWhenActive="page"
-             >Usuario Rol</a>
-         <a routerLink="/rol/tree"
-           routerLinkActive="active"
-           ariaCurrentWhenActive="page"
-            >Rol tree</a>    
-        <a routerLink="/rol/funcions/tree"
-            routerLinkActive="active"
-            ariaCurrentWhenActive="page"
-            >Rol Funcion</a>
-        <a routerLink="/usuarios/create"
-           routerLinkActive="active"
-           ariaCurrentWhenActive="page"
-            >Usuario</a> 
-        <a routerLink="/usuarios/list" 
-            routerLinkActive="active"
-            ariaCurrentWhenActive="page"
-            (click)="handleLinkClick($event)"
-            >Usuarios</a>
-        <a routerLink="/areas/create" 
+        <a routerLink="/area/create" 
             routerLinkActive="active"
             ariaCurrentWhenActive="page"
             (click)="handleLinkClick($event)"
             >Area</a>    
-        <a routerLink="/areas/list" 
+        <a routerLink="/area/ctrl" 
             routerLinkActive="active"
             ariaCurrentWhenActive="page"
             (click)="handleLinkClick($event)"
             >Areas</a>
-        <a routerLink="/funcions/create"
+        <a routerLink="/area/tree"
+           routerLinkActive="active"
+           ariaCurrentWhenActive="page"
+            >Area tree</a>
+        <a routerLink="/usuario/create"
+           routerLinkActive="active"
+           ariaCurrentWhenActive="page"
+            >Usuario</a> 
+        <a routerLink="/usuario/list" 
+            routerLinkActive="active"
+            ariaCurrentWhenActive="page"
+            (click)="handleLinkClick($event)"
+            >Usuarios</a>
+        <a routerLink="/usuario/rol/tree"
+            routerLinkActive="active"
+            ariaCurrentWhenActive="page"
+             >Usuario Rol</a>
+        <a routerLink="/rol/tree"
+           routerLinkActive="active"
+           ariaCurrentWhenActive="page"
+            >Rol tree</a>    
+        <a routerLink="/rol/funcion/tree"
+            routerLinkActive="active"
+            ariaCurrentWhenActive="page"
+            >Rol Funcion</a>
+        <a routerLink="/funcion/create"
             routerLinkActive="active"
             ariaCurrentWhenActive="page"
             >Función</a>
-        <a routerLink="/funcions/list"
+        <a routerLink="/funcion/list"
             routerLinkActive="active"
             ariaCurrentWhenActive="page"
             (click)="handleLinkClick($event)"

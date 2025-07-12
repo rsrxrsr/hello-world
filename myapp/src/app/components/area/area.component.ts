@@ -11,6 +11,4 @@ import { FormComponent } from '../form/form.component';
   standalone: true, 
   imports: [CommonModule, FormsModule, FormComponent]
 })
-export class AreaComponent extends FormComponent {
-  catalogos:any =["areas", "usuarios"]
-}
+export class AreaComponent extends FormComponent {}
